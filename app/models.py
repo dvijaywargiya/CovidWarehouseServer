@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True)
     email = db.Column(db.String(120), index=True, unique=True)
     token = db.Column(db.String(120), index=True, unique=True)
@@ -17,5 +17,31 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return '<User {}>'.format(self.username)
+class Fact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    metaId = db.Column(db.Integer, index=True)
+    arxivId = db.Column(db.String(64), index=True)
+    title = db.Column(db.String(128), index=True)
+    pdfLink = db.Column(db.String(128), index=True)
+    abstract = db.Column(db.String(512), index=True)
+    abstractLink = db.Column(db.String(128), index=True)
+    authors = db.Column(db.String(512), index=True)
+    publishedDate = db.Column(db.String(32), index=True)
+    link = db.Column(db.String(512), index=True)
+    tag = db.Column(db.String(512), index=True)
+
+class Topics(db.Model):
+    topicId = db.Column(db.Integer, primary_key=True)
+    topicName = db.Column(db.String(120), index=True)
+
+class FreqItems(db.Model):
+    itemSetId = db.Column(db.Integer, primary_key=True)
+    itemSet = db.Column(db.String(1024), index=True)
+
+class Author(db.Model):
+    authorId = db.Column(db.Integer, primary_key=True)
+    authorName = db.Column(db.String(120), index=True)
+
+class Publication(db.Model):
+    FileId = db.Column(db.String, primary_key=True)
+    Date = db.Column(db.String(1024), index=True)
