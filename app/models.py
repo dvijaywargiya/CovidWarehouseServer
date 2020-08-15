@@ -43,5 +43,5 @@ class Author(db.Model):
     authorName = db.Column(db.String(120), index=True)
 
 class Publication(db.Model):
-    FileId = db.Column(db.String, primary_key=True)
-    Date = db.Column(db.String(1024), index=True)
+    fileId = db.Column(db.String, primary_key=True)
+    date = db.Column(db.String(1024), index=True)
