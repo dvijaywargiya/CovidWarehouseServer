@@ -1,5 +1,8 @@
 import csv
 
+def populateFact(db, Fact):
+    pass
+
 def populateTopics(db, Topics):
     objs = []
     with open('./app/csvs/topic_id.csv', 'r') as fl:
