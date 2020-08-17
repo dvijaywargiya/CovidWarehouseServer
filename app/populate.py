@@ -1,7 +1,21 @@
 import csv
 
 def populateFact(db, Fact):
-    pass
+    objs = []
+    with open('./app/csvs/Metainfo_arxiv.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        reader.__next__()
+        for ele in reader:
+            authors = []
+            try:
+                for ele2 in ele[7].split(','):
+                    authors.append(ele2.split('\'')[-2])
+                authors = ','.join(authors)
+            except:
+                authors = []
+            objs.append({'id': ele[0], 'metaId': ele[1], 'arxivId': ele[3], 'title': ele[4], 'pdfLink': ele[5], 'abstract': ele[6], 'authors': authors, 'publishedDate': ele[8]})
+        db.engine.execute(Fact.__table__.insert(), objs)
+                
 
 def populateTopics(db, Topics):
     objs = []

@@ -12,9 +12,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
 
-from app.populate import populateTopics, populateAuthor, populateFreqItems, populatePublication
+from app.populate import populateTopics, populateAuthor, populateFreqItems, populatePublication, populateFact
 from app.models import *
 
+populateFact(db, Fact)
 populateTopics(db, Topics)
 populateAuthor(db, Author)
 populateFreqItems(db, FreqItems)
