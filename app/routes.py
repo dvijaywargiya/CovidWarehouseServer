@@ -9,14 +9,14 @@ def newUser():
     name = request.json.get('name')
     email = request.json.get('email')
     password = request.json.get('password')
-    # try:
-    newUser = User(name=name, email=email, token=str(uuid4()))
-    newUser.set_password(password)
-    db.session.add(newUser)
-    db.session.commit()
-    return json.dumps({'user': newUser.name, 'token': newUser.token})
-    # except:
-    #     abort(400)
+    try:
+        newUser = User(name=name, email=email, token=str(uuid4()))
+        newUser.set_password(password)
+        db.session.add(newUser)
+        db.session.commit()
+        return json.dumps({'user': newUser.name, 'token': newUser.token})
+    except:
+        abort(400)
 
 @app.route('/authenticate', methods=['POST'])
 def authenticate():
