@@ -5,6 +5,10 @@ from app.models import User, Author, Topics, AuthorsDimension, TopicsDimension
 from uuid import uuid4
 from sqlalchemy import text
 
+@app.route('/', methods=['POST', 'GET'])
+def home():
+    return '<h1> Hello there </h1>'
+
 @app.route('/register', methods=['POST'])
 def newUser():
     name = request.json.get('name')
