@@ -1,8 +1,9 @@
 from app import app, db
 import json
 from flask import request, abort
-from app.models import User, Author
+from app.models import User, Author, Topics, AuthorsDimension, TopicsDimension
 from uuid import uuid4
+from sqlalchemy import text
 
 @app.route('/register', methods=['POST'])
 def newUser():
@@ -34,3 +35,42 @@ def getAuthors():
     for ele in authors:
         ret.append({'authorId': ele.authorId, 'authorName': ele.authorName})
     return json.dumps(ret)
+
+@app.route('/getTopics', methods=['GET'])
+def getTopics():
+    topics = Topics.query.all() 
+    ret = []
+    for ele in topics:
+        ret.append({'topicId': ele.topicId, 'topicName': ele.topicName})
+    return json.dumps(ret)
+
+@app.route('/query', methods=['POST'])
+def query():
+    authors = list(request.json.get('authors'))
+    topics = list(request.json.get('topics'))
+    authors = tuple(authors)
+    topics = tuple(topics)
+
+    if len(authors) > 0:
+        authorsQuery = None
+        if len(authors) > 1:
+            authorsQuery = text('select fileName from authors_dimension where authorId IN {} ;'.format(authors))
+        else:
+            authorsQuery = text('select fileName from authors_dimension where authorId = {} ;'.format(authors[0]))
+
+        authorsResult = db.engine.execute(authorsQuery)
+        authorsFilenames = [row[0] for row in authorsResult]
+
+    if len(topics) > 0:
+        topicsQuery = None
+        if len(topics) > 1:
+            topicsQuery = text('select fileName from topics_dimension where topicId IN {} ;'.format(topics))
+        else:
+            topicsQuery = text('select fileName from topics_dimension where topicId = {} ;'.format(topics[0]))
+
+        topicsResult = db.engine.execute(topicsQuery)
+        topicsFilenames = [row[0] for row in topicsResult]
+
+    files = list(set(topicsResult) & set(authorsResult)) 
+
+    return json.dumps(files)

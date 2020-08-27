@@ -33,13 +33,23 @@ class Topics(db.Model):
     topicId = db.Column(db.Integer, primary_key=True)
     topicName = db.Column(db.String(120), index=True)
 
-class FreqItems(db.Model):
-    itemSetId = db.Column(db.Integer, primary_key=True)
-    itemSet = db.Column(db.String(1024), index=True)
-
 class Author(db.Model):
     authorId = db.Column(db.Integer, primary_key=True)
     authorName = db.Column(db.String(120), index=True)
+
+class TopicsDimension(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fileName = db.Column(db.String(120), index=True)
+    topicId = db.Column(db.Integer, db.ForeignKey('topics.topicId'))
+
+class AuthorsDimension(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fileName = db.Column(db.String(120), index=True)
+    authorId = db.Column(db.Integer, db.ForeignKey('author.authorId'))
+
+class FreqItems(db.Model):
+    itemSetId = db.Column(db.Integer, primary_key=True)
+    itemSet = db.Column(db.String(1024), index=True)
 
 class Publication(db.Model):
     fileId = db.Column(db.String, primary_key=True)

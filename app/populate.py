@@ -1,5 +1,21 @@
 import csv
 
+def populateAuthorDimension(db, AuthorDimension):
+    objs = []
+    with open('./app/csvs/author_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'authorId': ele[1], 'fileName': ele[0]})
+        db.engine.execute(AuthorDimension.__table__.insert(), objs)
+
+def populateTopicsDimension(db, TopicsDimension):
+    objs = []
+    with open('./app/csvs/topics_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'topicId': ele[1], 'fileName': ele[0]})
+        db.engine.execute(TopicsDimension.__table__.insert(), objs)
+
 def populateFact(db, Fact):
     objs = []
     with open('./app/csvs/Metainfo_arxiv.csv', 'r') as fl:
