@@ -2,7 +2,7 @@ import csv
 
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
-    with open('./app/csvs/author_dim_table.csv', 'r') as fl:
+    with open('./csvs/author_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'authorId': ele[1], 'fileName': ele[0]})
@@ -10,7 +10,7 @@ def populateAuthorDimension(db, AuthorDimension):
 
 def populateTopicsDimension(db, TopicsDimension):
     objs = []
-    with open('./app/csvs/topics_dim_table.csv', 'r') as fl:
+    with open('./csvs/topics_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'topicId': ele[1], 'fileName': ele[0]})
@@ -18,7 +18,7 @@ def populateTopicsDimension(db, TopicsDimension):
 
 def populateFact(db, Fact):
     objs = []
-    with open('./app/csvs/Metainfo_arxiv.csv', 'r') as fl:
+    with open('./csvs/Metainfo_arxiv.csv', 'r') as fl:
         reader = csv.reader(fl)
         reader.__next__()
         for ele in reader:
@@ -35,7 +35,7 @@ def populateFact(db, Fact):
 
 def populateTopics(db, Topics):
     objs = []
-    with open('./app/csvs/topic_id.csv', 'r') as fl:
+    with open('./csvs/topic_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'topicId': ele[0], 'topicName': ele[1]})
@@ -43,7 +43,7 @@ def populateTopics(db, Topics):
 
 def populateFreqItems(db, FreqItems):
     objs = []
-    with open('./app/csvs/freq_item_id.csv', 'r') as fl:
+    with open('./csvs/freq_item_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             id = ele[-1]
@@ -56,7 +56,7 @@ def populateFreqItems(db, FreqItems):
 
 def populateAuthor(db, Author):
     objs = []
-    with open('./app/csvs/author_id.csv', 'r') as fl:
+    with open('./csvs/author_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'authorId': ele[1], 'authorName': ele[0]})
@@ -64,7 +64,7 @@ def populateAuthor(db, Author):
 
 def populatePublication(db, Publication):
     objs = []
-    with open('./app/csvs/publish_dim_table.csv', 'r') as fl:
+    with open('./csvs/publish_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'fileId': ele[0], 'date': ele[1]})
