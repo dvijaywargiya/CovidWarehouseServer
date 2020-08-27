@@ -1,19 +1,25 @@
 from flask import Flask
-from config import Config
+# from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-import os
 from os import path
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))
 
+class Config(object):
+    # ...
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
 
-from app.populate import populateTopics, populateAuthor, populateFreqItems, populatePublication, populateFact, populateAuthorDimension, populateTopicsDimension
-from app.models import *
+from .populate import populateTopics, populateAuthor, populateFreqItems, populatePublication, populateFact, populateAuthorDimension, populateTopicsDimension
+from .models import *
 
 # populateFact(db, Fact)
 # populateTopics(db, Topics)
@@ -23,4 +29,4 @@ from app.models import *
 # populateAuthorDimension(db, AuthorsDimension)
 # populateTopicsDimension(db, TopicsDimension)
 
-from app import routes
+from . import routes

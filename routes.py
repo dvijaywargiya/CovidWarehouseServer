@@ -1,7 +1,7 @@
-from app import app, db
+from . import app, db
 import json
 from flask import request, abort
-from app.models import User, Author, Topics, AuthorsDimension, TopicsDimension
+from .models import User, Author, Topics, AuthorsDimension, TopicsDimension
 from uuid import uuid4
 from sqlalchemy import text
 
