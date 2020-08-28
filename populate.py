@@ -68,5 +68,5 @@ def populatePublication(db, Publication):
         reader = csv.reader(fl)
         for ele in reader:
             year = ele[1].split(' ')[0].split('-')[0]
-            objs.append({'fileId': ele[0], 'date': year})
+            objs.append({'fileId': ele[0], 'date': int(year)})
         db.engine.execute(Publication.__table__.insert(), objs)

@@ -86,7 +86,9 @@ def query():
             lists.append(topicsFilenames)
 
     if fromYear and toYear:
-        dateQuery = text('select fileId from publication where date between ({}, {}) ;'.format(fromYear, toYear))
+        fromYear = int(fromYear)
+        toYear = int(toYear)
+        dateQuery = text('select fileId from publication where date between {} AND {};'.format(fromYear, toYear))
         dateResult = db.engine.execute(dateQuery)
         dateFilenames = [row[0] for row in dateResult]
         if len(dateFilenames) > 0:

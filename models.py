@@ -53,4 +53,4 @@ class FreqItems(db.Model):
 
 class Publication(db.Model):
     fileId = db.Column(db.String, primary_key=True)
-    date = db.Column(db.String(1024), index=True)
+    year = db.Column(db.Integer, index=True)
