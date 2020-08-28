@@ -21,12 +21,12 @@ CORS(app)
 from .populate import populateTopics, populateAuthor, populateFreqItems, populatePublication, populateFact, populateAuthorDimension, populateTopicsDimension
 from .models import *
 
-populateFact(db, Fact)
-populateTopics(db, Topics)
-populateAuthor(db, Author)
-populateFreqItems(db, FreqItems)
-populatePublication(db, Publication)
-populateAuthorDimension(db, AuthorsDimension)
-populateTopicsDimension(db, TopicsDimension)
+# populateFact(db, Fact)
+# populateTopics(db, Topics)
+# populateAuthor(db, Author)
+# populateFreqItems(db, FreqItems)
+# populatePublication(db, Publication)
+# populateAuthorDimension(db, AuthorsDimension)
+# populateTopicsDimension(db, TopicsDimension)
 
 from . import routes

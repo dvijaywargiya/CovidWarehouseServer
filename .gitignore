@@ -2,3 +2,4 @@
 migrations
 csvs
 *.db
+*.pyc
