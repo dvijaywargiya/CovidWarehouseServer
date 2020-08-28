@@ -60,6 +60,7 @@ def query():
     authors = tuple(authors)
     topics = tuple(topics)
 
+    lists = []
     if len(authors) > 0:
         authorsQuery = None
         if len(authors) > 1:
@@ -69,6 +70,8 @@ def query():
 
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]
+        if len(authorsFilenames) > 0:
+            lists.append(authorsFilenames)
 
     if len(topics) > 0:
         topicsQuery = None
@@ -79,19 +82,16 @@ def query():
 
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
+        if len(topicsFilenames) > 0:
+            lists.append(topicsFilenames)
 
     if fromYear and toYear:
         dateQuery = text('select fileId from publication where date between ({}, {}) ;'.format(fromYear, toYear))
         dateResult = db.engine.execute(dateQuery)
         dateFilenames = [row[0] for row in dateResult]
+        if len(dateFilenames) > 0:
+            lists.append(dateFilenames)
 
-    lists = []
-    if len(authorsFilenames) > 0:
-        lists.append(authorsFilenames)
-    if len(topicsFilenames) > 0:
-        lists.append(topicsFilenames)
-    if len(dateFilenames) > 0:
-        lists.append(dateFilenames)
 
     files = lists[0]
     for i in range(1, len(lists)):
