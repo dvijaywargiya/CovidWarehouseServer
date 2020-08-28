@@ -55,6 +55,8 @@ def intersection(lst1, lst2):
 def query():
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
+    fromYear = request.json.get('fromYear')
+    toYear = request.json.get('toYear')
     authors = tuple(authors)
     topics = tuple(topics)
 
@@ -78,11 +80,18 @@ def query():
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
 
+    if fromYear and toYear:
+        dateQuery = text('select fileId from publication where date between ({}, {}) ;'.format(fromYear, toYear))
+        dateResult = db.engine.execute(dateQuery)
+        dateFilenames = [row[0] for row in dateResult]
+
     lists = []
     if len(authorsFilenames) > 0:
         lists.append(authorsFilenames)
     if len(topicsFilenames) > 0:
         lists.append(topicsFilenames)
+    if len(dateFilenames) > 0:
+        lists.append(dateFilenames)
 
     files = lists[0]
     for i in range(1, len(lists)):
