@@ -48,6 +48,9 @@ def getTopics():
         ret.append({'topicId': ele.topicId, 'topicName': ele.topicName})
     return json.dumps(ret)
 
+def intersection(lst1, lst2): 
+    return [item for item in lst1 if item in lst2] 
+
 @app.route('/query', methods=['POST'])
 def query():
     authors = list(request.json.get('authors'))
@@ -75,6 +78,14 @@ def query():
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
 
-    files = list(set(topicsResult) & set(authorsResult)) 
+    lists = []
+    if len(authorsFilenames) > 0:
+        lists.append(authorsFilenames)
+    if len(topicsFilenames) > 0:
+        lists.append(topicsFilenames)
+
+    files = lists[0]
+    for i in range(1, len(lists)):
+        files = intersection(files, lists[i])
 
     return json.dumps(files)
