@@ -108,12 +108,12 @@ def query():
     files = lists[0]
     for i in range(1, len(lists)):
         files = intersection(files, lists[i])
-    if len(files) > 0:
-        listToBeReturned = []
-        for ele in files:
-            linkQuery = text('select pdfLink, title, abstract from Fact where arxivId = {};'.format(ele))
-            linkResult = db.engine.execute(dateQuery)
-            app.logger.error(linkResult)
+   # if len(files) > 0:
+    #    listToBeReturned = []
+     #   for ele in files:
+      #      linkQuery = text('select pdfLink, title, abstract from Fact where arxivId = {};'.format(ele))
+       #     linkResult = db.engine.execute(linkQuery)
+        #    app.logger.error(linkResult)
             # pdfLink = linkResult[0][0]
             # title = linkResult[0][1]
             # abstract = linkResult[0][2]
