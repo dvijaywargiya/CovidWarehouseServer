@@ -9,7 +9,7 @@ from sqlalchemy import text
 def home():
     return '<h1> Hello there </h1>'
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def newUser():
     name = request.json.get('name')
     email = request.json.get('email')
@@ -23,7 +23,7 @@ def newUser():
     except:
         abort(400)
 
-@app.route('/authenticate', methods=['POST'])
+@app.route('/api/authenticate', methods=['POST'])
 def authenticate():
     email = request.json.get('email')
     password = request.json.get('password')
@@ -32,7 +32,7 @@ def authenticate():
         abort(400)
     return json.dumps({'user': user.name, 'token':user.token})
 
-@app.route('/getAuthors', methods=['GET'])
+@app.route('/api/getAuthors', methods=['GET'])
 def getAuthors():
     authors = Author.query.all() 
     ret = []
@@ -40,7 +40,7 @@ def getAuthors():
         ret.append({'authorId': ele.authorId, 'authorName': ele.authorName})
     return json.dumps(ret)
 
-@app.route('/getTopics', methods=['GET'])
+@app.route('/api/getTopics', methods=['GET'])
 def getTopics():
     topics = Topics.query.all() 
     ret = []
@@ -51,7 +51,7 @@ def getTopics():
 def intersection(lst1, lst2): 
     return [item for item in lst1 if item in lst2] 
 
-@app.route('/query', methods=['POST'])
+@app.route('/api/query', methods=['POST'])
 def query():
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
