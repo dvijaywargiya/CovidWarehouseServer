@@ -113,9 +113,9 @@ def query():
         for ele in files:
             linkQuery = text('select pdfLink, title, abstract from Fact where arxivId = {};'.format(ele))
             linkResult = db.engine.execute(dateQuery)
-            pdfLink = linkResult[0]
-            title = linkResult[1]
-            abstract = linkResult[2]
+            pdfLink = linkResult[0][0]
+            title = linkResult[0][1]
+            abstract = linkResult[0][2]
             listToBeReturned.append([title, pdfLink, abstract])
         return json.dumps(listToBeReturned)
     return json.dumps([])
