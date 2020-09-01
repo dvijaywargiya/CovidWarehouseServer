@@ -136,6 +136,6 @@ def query():
         fileQuery = text('select title,link,abstract from file_dimension where metaID = {} ;'.format(ele))
         fileResult = db.engine.execute(fileQuery)
         fileResult = [row for row in fileResult][0]
-        list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2]})
+        list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2], 'abstractLink':fileResult[1].replace('pdf', 'abs')})
 
     return json.dumps(list_to_be_returned)
