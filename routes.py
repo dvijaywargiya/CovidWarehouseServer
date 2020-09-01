@@ -72,9 +72,9 @@ def query():
     if len(authors) > 0:
         authorsQuery = None
         if len(authors) > 1:
-            authorsQuery = text('select fileName from authors_dimension where authorId IN {} ;'.format(authors))
+            authorsQuery = text('select metaID from authors_dimension where authorId IN {} ;'.format(authors))
         else:
-            authorsQuery = text('select fileName from authors_dimension where authorId = {} ;'.format(authors[0]))
+            authorsQuery = text('select metaID from authors_dimension where authorId = {} ;'.format(authors[0]))
 
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]
@@ -84,9 +84,9 @@ def query():
     if len(topics) > 0:
         topicsQuery = None
         if len(topics) > 1:
-            topicsQuery = text('select fileName from topics_dimension where topicId IN {} ;'.format(topics))
+            topicsQuery = text('select metaID from topics_dimension where topicId IN {} ;'.format(topics))
         else:
-            topicsQuery = text('select fileName from topics_dimension where topicId = {} ;'.format(topics[0]))
+            topicsQuery = text('select metaID from topics_dimension where topicId = {} ;'.format(topics[0]))
 
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
@@ -97,7 +97,7 @@ def query():
         try:
             fromYear = int(fromYear)
             toYear = int(toYear)
-            dateQuery = text('select fileId from publication where year between {} AND {};'.format(fromYear, toYear))
+            dateQuery = text('select metaID from publication where date between {} AND {};'.format(fromYear, toYear))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             if len(dateFilenames) > 0:
