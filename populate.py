@@ -5,7 +5,7 @@ def populateAuthorDimension(db, AuthorDimension):
     with open('./csvs/author_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'authorId': ele[1], 'fileName': ele[0]})
+            objs.append({'authorId': ele[1], 'metaID': ele[0]})
         db.engine.execute(AuthorDimension.__table__.insert(), objs)
 
 def populateTopicsDimension(db, TopicsDimension):
@@ -13,7 +13,7 @@ def populateTopicsDimension(db, TopicsDimension):
     with open('./csvs/topics_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'topicId': ele[1], 'fileName': ele[0]})
+            objs.append({'topicId': ele[1], 'metaID': ele[0]})
         db.engine.execute(TopicsDimension.__table__.insert(), objs)
 
 def populateFact(db, Fact):
@@ -67,6 +67,6 @@ def populatePublication(db, Publication):
     with open('./csvs/publish_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            year = ele[1].split(' ')[0].split('-')[0]
-            objs.append({'fileId': ele[0], 'date': int(year)})
+            date = ele[1].split(' ')[0]
+            objs.append({'metaID': ele[0], 'date': date})
         db.engine.execute(Publication.__table__.insert(), objs)

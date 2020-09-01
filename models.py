@@ -39,12 +39,12 @@ class Author(db.Model):
 
 class TopicsDimension(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fileName = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), index=True)
     topicId = db.Column(db.Integer, db.ForeignKey('topics.topicId'))
 
 class AuthorsDimension(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fileName = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), index=True)
     authorId = db.Column(db.Integer, db.ForeignKey('author.authorId'))
 
 class FreqItems(db.Model):
@@ -52,5 +52,5 @@ class FreqItems(db.Model):
     itemSet = db.Column(db.String(1024), index=True)
 
 class Publication(db.Model):
-    fileId = db.Column(db.String, primary_key=True)
-    year = db.Column(db.Integer, index=True)
+    metaID = db.Column(db.String, primary_key=True)
+    date = db.Column(db.String, index=True)
