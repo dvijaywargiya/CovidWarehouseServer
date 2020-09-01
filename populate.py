@@ -70,3 +70,11 @@ def populatePublication(db, Publication):
             date = ele[1].split(' ')[0].split('-')[0]
             objs.append({'metaID': ele[0], 'date': date})
         db.engine.execute(Publication.__table__.insert(), objs)
+
+def populateFileDimension(db, FileDimension):
+    objs = []
+    with open('./csvs/fact_display.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'metaID': ele[0], 'fileName': ele[1], 'title':ele[2], 'link':ele[3], 'abstract':ele[4]})
+        db.engine.execute(FileDimension.__table__.insert(), objs)

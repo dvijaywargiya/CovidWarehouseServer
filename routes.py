@@ -72,10 +72,19 @@ def query():
     if len(authors) > 0:
         authorsQuery = None
         if len(authors) > 1:
-            authorsQuery = text('select metaID from authors_dimension where authorId IN {} ;'.format(authors))
+            authorsQuery = text('select distinct metaID from authors_dimension where authorId IN {} ;'.format(authors))
         else:
-            authorsQuery = text('select metaID from authors_dimension where authorId = {} ;'.format(authors[0]))
+            authorsQuery = text('select distinct metaID from authors_dimension where authorId = {} ;'.format(authors[0]))
 
+        authorsResult = db.engine.execute(authorsQuery)
+        authorsFilenames = [row[0] for row in authorsResult]
+        app.logger.error("--------")
+        app.logger.error(authorsFilenames)
+        app.logger.error("--------")
+        if len(authorsFilenames) > 0:
+            lists.append(authorsFilenames)
+    else:
+        authorsQuery = text('select distinct metaID from authors_dimension;')
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]
         if len(authorsFilenames) > 0:
@@ -84,39 +93,49 @@ def query():
     if len(topics) > 0:
         topicsQuery = None
         if len(topics) > 1:
-            topicsQuery = text('select metaID from topics_dimension where topicId IN {} ;'.format(topics))
+            topicsQuery = text('select distinct metaID from topics_dimension where topicId IN {} ;'.format(topics))
         else:
-            topicsQuery = text('select metaID from topics_dimension where topicId = {} ;'.format(topics[0]))
+            topicsQuery = text('select distinct metaID from topics_dimension where topicId = {} ;'.format(topics[0]))
 
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
         if len(topicsFilenames) > 0:
             lists.append(topicsFilenames)
+    else:
+        topicsQuery = text('select distinct metaID from topics_dimension;')
+        topicsResult = db.engine.execute(topicsQuery)
+        topicsFilenames = [row[0] for row in topicsResult]
+        if len(topicsFilenames) > 0:
+            lists.append(topicsFilenames)
+
 
     if fromYear and toYear:
         try:
             fromYear = int(fromYear)
             toYear = int(toYear)
-            dateQuery = text('select metaID from publication where date between {} AND {};'.format(fromYear, toYear))
+            dateQuery = text('select distinct metaID from publication where date between {} AND {};'.format(fromYear, toYear))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             if len(dateFilenames) > 0:
                 lists.append(dateFilenames)
         except:
             pass
+    else:
+        dateQuery = text('select distinct metaID from publication;')
+        dateResult = db.engine.execute(dateQuery)
+        dateFilenames = [row[0] for row in dateResult]
+        if len(dateFilenames) > 0:
+            lists.append(dateFilenames)
 
     files = lists[0]
     for i in range(1, len(lists)):
         files = intersection(files, lists[i])
-   # if len(files) > 0:
-    #    listToBeReturned = []
-     #   for ele in files:
-      #      linkQuery = text('select pdfLink, title, abstract from Fact where arxivId = {};'.format(ele))
-       #     linkResult = db.engine.execute(linkQuery)
-        #    app.logger.error(linkResult)
-            # pdfLink = linkResult[0][0]
-            # title = linkResult[0][1]
-            # abstract = linkResult[0][2]
-            # listToBeReturned.append([title, pdfLink, abstract])
 
-    return json.dumps(files)
+    list_to_be_returned = []
+    for ele in files:
+        fileQuery = text('select title,link,abstract from file_dimension where metaID = {} ;'.format(ele))
+        fileResult = db.engine.execute(fileQuery)
+        fileResult = [row for row in fileResult][0]
+        list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2]})
+
+    return json.dumps(list_to_be_returned)
