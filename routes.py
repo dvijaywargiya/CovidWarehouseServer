@@ -81,14 +81,14 @@ def query():
         app.logger.error("--------")
         app.logger.error(authorsFilenames)
         app.logger.error("--------")
-        if len(authorsFilenames) > 0:
-            lists.append(authorsFilenames)
+        
+        lists.append(authorsFilenames)
     else:
         authorsQuery = text('select distinct metaID from authors_dimension;')
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]
-        if len(authorsFilenames) > 0:
-            lists.append(authorsFilenames)
+        
+        lists.append(authorsFilenames)
 
     if len(topics) > 0:
         topicsQuery = None
@@ -105,27 +105,25 @@ def query():
         topicsQuery = text('select distinct metaID from topics_dimension;')
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
-        if len(topicsFilenames) > 0:
-            lists.append(topicsFilenames)
+        lists.append(topicsFilenames)
 
 
     if fromYear and toYear:
         try:
-            fromYear = int(fromYear)
-            toYear = int(toYear)
             dateQuery = text('select distinct metaID from publication where date between {} AND {};'.format(fromYear, toYear))
+            app.logger.error(dateQuery)
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
-            if len(dateFilenames) > 0:
-                lists.append(dateFilenames)
+            app.logger.error(len(dateFilenames))
+            
+            lists.append(dateFilenames)
         except:
             pass
     else:
         dateQuery = text('select distinct metaID from publication;')
         dateResult = db.engine.execute(dateQuery)
         dateFilenames = [row[0] for row in dateResult]
-        if len(dateFilenames) > 0:
-            lists.append(dateFilenames)
+        lists.append(dateFilenames)
 
     files = lists[0]
     for i in range(1, len(lists)):
