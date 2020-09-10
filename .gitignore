@@ -3,6 +3,8 @@ migrations
 csvs
 *.db
 *.pyc
+static
+templates
 /static
 /static/*
 /templates
