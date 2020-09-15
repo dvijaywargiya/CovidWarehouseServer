@@ -111,12 +111,18 @@ def query():
 
     if fromDate and toDate:
         try:
-            dateQuery = text('select distinct metaID from publication where date between {} AND {};'.format(fromDate, toDate))
+            fromYear = int(fromDate.split('-')[0])
+            fromMonth = int(fromDate.split('-')[1])
+            fromDate = int(fromDate.split('-')[2])
+
+            toYear = int(toDate.split('-')[0])
+            toMonth = int(toDate.split('-')[1])
+            toDate = int(toDate.split('-')[2])
+            dateQuery = text('select distinct metaID from publication where year between {} AND {} AND month between {} and {} AND date between {} and {};'.format(fromYear, toYear, fromMonth, toMonth, fromDate, toDate))
             app.logger.error(dateQuery)
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             app.logger.error(len(dateFilenames))
-            
             lists.append(dateFilenames)
         except:
             pass

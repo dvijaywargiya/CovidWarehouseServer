@@ -53,7 +53,9 @@ class FreqItems(db.Model):
 
 class Publication(db.Model):
     metaID = db.Column(db.String, primary_key=True)
-    date = db.Column(db.String, index=True)
+    year = db.Column(db.Integer, index=True)
+    month = db.Column(db.Integer, index=True)
+    date = db.Column(db.Integer, index=True)
 
 class FileDimension(db.Model):
     metaID = db.Column(db.String, primary_key=True)
