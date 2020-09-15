@@ -67,7 +67,7 @@ def populatePublication(db, Publication):
     with open('./csvs/publish_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            date = ele[1].split(' ')[0].split('-')[0]
+            date = ele[1].split(' ')[0]
             objs.append({'metaID': ele[0], 'date': date})
         db.engine.execute(Publication.__table__.insert(), objs)
 

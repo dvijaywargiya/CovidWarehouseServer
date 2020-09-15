@@ -61,6 +61,7 @@ def intersection(lst1, lst2):
 
 @app.route('/api/query', methods=['POST'])
 def query():
+    print(request.json)
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
     fromYear = request.json.get('fromYear')
