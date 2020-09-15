@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+import datetime
 
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
@@ -68,8 +68,8 @@ def populatePublication(db, Publication):
     with open('./csvs/publish_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            temp = ele[1].split(' ')[0]
-            timestamp = datetime(int(temp[0]), int(temp[1]), int(temp[2]))
+            temp = ele[1].split(' ')[0].split('-')
+            timestamp = datetime.date(int(temp[0]), int(temp[1]), int(temp[2]))
             objs.append({'metaID': ele[0], 'timestamp': timestamp})
         db.engine.execute(Publication.__table__.insert(), objs)
 
