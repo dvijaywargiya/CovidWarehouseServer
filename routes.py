@@ -106,7 +106,7 @@ def query():
 
     if fromDate and toDate:
         try:
-            dateQuery = text('select distinct metaID from publication where timestamp between {} and {};'.format(fromDate, toDate)
+            dateQuery = text('select distinct metaID from publication where timestamp between {} and {};'.format(fromDate, toDate))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             lists.append(dateFilenames)
