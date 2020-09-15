@@ -113,7 +113,7 @@ def query():
             toYear = int(toDate.split('-')[0])
             toMonth = int(toDate.split('-')[1])
             toDate = int(toDate.split('-')[2])
-            dateQuery = text('select distinct metaID from publication where year between {} AND {} AND month between {} and {} AND date between {} and {};'.format(fromYear, toYear, fromMonth, toMonth, fromDate, toDate))
+            dateQuery = text('select distinct metaID from publication where date between {} and {} AND month between {} and {} AND year between {} AND {};'.format(fromDate, toDate, fromMonth, toMonth, fromYear, toYear))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             lists.append(dateFilenames)
