@@ -64,8 +64,8 @@ def query():
     print(request.json)
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
-    fromYear = request.json.get('fromYear')
-    toYear = request.json.get('toYear')
+    fromDate = request.json.get('fromDate')
+    toDate = request.json.get('toDate')
     authors = tuple(authors)
     topics = tuple(topics)
 
@@ -109,9 +109,9 @@ def query():
         lists.append(topicsFilenames)
 
 
-    if fromYear and toYear:
+    if fromDate and toDate:
         try:
-            dateQuery = text('select distinct metaID from publication where date between {} AND {};'.format(fromYear, toYear))
+            dateQuery = text('select distinct metaID from publication where date between {} AND {};'.format(fromDate, toDate))
             app.logger.error(dateQuery)
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
