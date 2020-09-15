@@ -61,7 +61,6 @@ def intersection(lst1, lst2):
 
 @app.route('/api/query', methods=['POST'])
 def query():
-    print(request.json)
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
     fromDate = request.json.get('fromDate')
@@ -78,11 +77,7 @@ def query():
             authorsQuery = text('select distinct metaID from authors_dimension where authorId = {} ;'.format(authors[0]))
 
         authorsResult = db.engine.execute(authorsQuery)
-        authorsFilenames = [row[0] for row in authorsResult]
-        app.logger.error("--------")
-        app.logger.error(authorsFilenames)
-        app.logger.error("--------")
-        
+        authorsFilenames = [row[0] for row in authorsResult]        
         lists.append(authorsFilenames)
     else:
         authorsQuery = text('select distinct metaID from authors_dimension;')
@@ -119,10 +114,8 @@ def query():
             toMonth = int(toDate.split('-')[1])
             toDate = int(toDate.split('-')[2])
             dateQuery = text('select distinct metaID from publication where year between {} AND {} AND month between {} and {} AND date between {} and {};'.format(fromYear, toYear, fromMonth, toMonth, fromDate, toDate))
-            app.logger.error(dateQuery)
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
-            app.logger.error(len(dateFilenames))
             lists.append(dateFilenames)
         except:
             pass
