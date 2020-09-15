@@ -106,10 +106,6 @@ def query():
 
 
     if fromDate and toDate:
-        splittedFrom = fromDate.split('-')
-        splittedTo = toDate.split('-')
-        fromDate = datetime.date(int(splittedFrom[0]), int(splittedFrom[1]), int(splittedFrom[2]))
-        toDate = datetime.date(int(splittedTo[0]), int(splittedTo[1]), int(splittedTo[2]))
         try:
             dateQuery = text('select distinct metaID from publication where timestamp between {} and {};'.format(fromDate, toDate))
             dateResult = db.engine.execute(dateQuery)
