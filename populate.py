@@ -68,11 +68,7 @@ def populatePublication(db, Publication):
         reader = csv.reader(fl)
         for ele in reader:
             temp = ele[1].split(' ')[0]
-            year = int(temp.split('-')[0])
-            month = int(temp.split('-')[1])
-            date = int(temp.split('-')[2])
-            
-            objs.append({'metaID': ele[0], 'year': year, 'month': month, 'date': date})
+            objs.append({'metaID': ele[0], 'timestamp': temp})
         db.engine.execute(Publication.__table__.insert(), objs)
 
 def populateFileDimension(db, FileDimension):
