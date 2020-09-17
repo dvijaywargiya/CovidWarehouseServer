@@ -9,3 +9,5 @@ templates
 /static/*
 /templates
 /templates/*
+/uploads
+/uploads/*

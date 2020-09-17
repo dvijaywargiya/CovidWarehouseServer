@@ -24,7 +24,7 @@ def login():
 def fileUpload():
     target=os.path.join(app.config['UPLOAD_FOLDER'], 'uploads')
     if not os.path.isdir(target):
-        os.mkdir(target)
+        os.system("sudo mkdir "+target)
     file = request.files['file'] 
     filename = secure_filename(file.filename)
     destination="/".join([target, filename])
