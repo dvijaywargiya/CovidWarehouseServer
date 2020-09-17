@@ -12,7 +12,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = './'
+    UPLOAD_FOLDER = '/var/www/CovidWarehouseServer/CovidWarehouseServer/uploads'
     ALLOWED_EXTENSIONS = set(['zip'])
 
 app = Flask(__name__)
