@@ -12,6 +12,9 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOAD_FOLDER = './'
+    ALLOWED_EXTENSIONS = set(['zip'])
+
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)

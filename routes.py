@@ -1,10 +1,12 @@
 from . import app, db
 import json
 from flask import request, abort, render_template
+from werkzeug.utils import secure_filename
 from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Fact
 from uuid import uuid4
 from sqlalchemy import text
 import datetime
+import os
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -17,6 +19,18 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     return render_template("index.html", flask_token="Hello World")
+
+@app.route('/api/uploadFile', methods=['POST'])
+def fileUpload():
+    target=os.path.join(app.config['UPLOAD_FOLDER'], 'uploads')
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = request.files['file'] 
+    filename = secure_filename(file.filename)
+    destination="/".join([target, filename])
+    file.save(destination)
+    response="Uploaded"
+    return response
 
 @app.route('/api/register', methods=['POST'])
 def newUser():
