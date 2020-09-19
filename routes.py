@@ -37,6 +37,7 @@ def login():
 def fileUpload():
     file = request.files['file'] 
     filename = secure_filename(file.filename)
+    global lastUploadedId
     destination="/".join([app.config['UPLOAD_FOLDER'], str(lastUploadedId+1)+'.pdf'])
     file.save(destination)
     response="Uploaded"
@@ -46,8 +47,9 @@ def fileUpload():
 def uploadedFileData():
     title = request.json.get('title')
     link = request.json.get('link')
+    global lastUploadedId
     lastUploadedId = lastUploadedId + 1
-    newUpload = Uploads(fileId=lastUploadedId + 1, timeStamp=datetime.datetime.now(), ip='', title=title, link=link)
+    newUpload = Uploads(fileId=lastUploadedId, timeStamp=datetime.datetime.now(), ip='', title=title, link=link)
     db.session.add(newUpload)
     db.session.commit()
     return "Success"
