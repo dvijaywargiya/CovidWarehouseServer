@@ -11,7 +11,15 @@ import os
 lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
 lastUploadedResult = db.engine.execute(lastUploadedQuery)
 lastUploadedResult = [row[0] for row in lastUploadedResult]
-app.logger.error(lastUploadedResult)        
+
+lastUploadedId = None
+if len(lastUploadedResult) == 0
+    lastUploadedId = 0
+else:
+    lastUploadedId = lastUploadedResult[0].fielId
+
+lastUploadedId = int(lastUploadedId)
+app.logger.error(lastUploadedId)        
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -29,7 +37,7 @@ def login():
 def fileUpload():
     file = request.files['file'] 
     filename = secure_filename(file.filename)
-    destination="/".join([app.config['UPLOAD_FOLDER'], filename])
+    destination="/".join([app.config['UPLOAD_FOLDER'], str(lastUploadedId+1)+'.pdf'])
     file.save(destination)
     response="Uploaded"
     return response
@@ -38,7 +46,10 @@ def fileUpload():
 def uploadedFileData():
     title = request.json.get('title')
     link = request.json.get('link')
-    # print(title, link)
+    lastUploadedId = lastUploadedId + 1
+    newUpload = Uploads(fileId=lastUploadedId + 1, timeStamp=datetime.datetime.now(), ip='', title=title, link=link)
+    db.session.add(newUpload)
+    db.session.commit()
     return "Success"
 
 @app.route('/api/register', methods=['POST'])
