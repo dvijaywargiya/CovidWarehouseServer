@@ -38,7 +38,7 @@ def fileUpload():
     file = request.files['file'] 
     filename = secure_filename(file.filename)
     global lastUploadedId
-    destination="/".join([app.config['UPLOAD_FOLDER'], str(lastUploadedId+1)+'.pdf'])
+    destination="/".join([app.config['UPLOAD_FOLDER'], str(lastUploadedId)+'.pdf'])
     file.save(destination)
     response="Uploaded"
     return response
