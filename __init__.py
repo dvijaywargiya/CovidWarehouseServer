@@ -14,7 +14,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = '/var/www/CovidWarehouseServer/CovidWarehouseServer/uploads'
     # UPLOAD_FOLDER = './uploads'
-    ALLOWED_EXTENSIONS = set(['zip'])
+    ALLOWED_EXTENSIONS = set(['pdf'])
 
 app = Flask(__name__)
 app.config.from_object(Config)

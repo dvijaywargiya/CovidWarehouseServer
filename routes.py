@@ -10,6 +10,7 @@ import os
 
 lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
 lastUploadedResult = db.engine.execute(lastUploadedQuery)
+lastUploadedResult = [row[0] for row in lastUploadedResult]
 app.logger.error(lastUploadedResult)        
 
 @app.route('/', methods=['POST', 'GET'])
