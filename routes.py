@@ -10,16 +10,17 @@ import os
 
 lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
 lastUploadedResult = db.engine.execute(lastUploadedQuery)
-lastUploadedResult = [row[0] for row in lastUploadedResult]
 
-lastUploadedId = None
-app.logger.error(lastUploadedResult)        
-if len(lastUploadedResult) == 0:
+temp = None
+for row in lastUploadedResult:
+    temp = row
+    break
+
+app.logger.error(temp)        
+if temp == None:
     lastUploadedId = 0
 else:
-    if len(lastUploadedResult) > 1:
-        lastUploadedResult = lastUploadedResult[0]
-    lastUploadedId = lastUploadedResult.fileId
+    lastUploadedId = temp.fileId
 
 lastUploadedId = int(lastUploadedId)
 
