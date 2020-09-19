@@ -13,10 +13,10 @@ lastUploadedResult = db.engine.execute(lastUploadedQuery)
 lastUploadedResult = [row[0] for row in lastUploadedResult]
 
 lastUploadedId = None
-if len(lastUploadedResult) == 0
+if len(lastUploadedResult) == 0:
     lastUploadedId = 0
 else:
-    lastUploadedId = lastUploadedResult[0].fielId
+    lastUploadedId = lastUploadedResult[0].fileId
 
 lastUploadedId = int(lastUploadedId)
 app.logger.error(lastUploadedId)        
