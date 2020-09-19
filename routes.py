@@ -13,13 +13,13 @@ lastUploadedResult = db.engine.execute(lastUploadedQuery)
 lastUploadedResult = [row[0] for row in lastUploadedResult]
 
 lastUploadedId = None
+app.logger.error(lastUploadedResult)        
 if len(lastUploadedResult) == 0:
     lastUploadedId = 0
 else:
-    lastUploadedId = lastUploadedResult[0].fileId
+    lastUploadedId = lastUploadedResult.fileId
 
 lastUploadedId = int(lastUploadedId)
-app.logger.error(lastUploadedId)        
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
