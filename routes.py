@@ -2,11 +2,15 @@ from . import app, db
 import json
 from flask import request, abort, render_template
 from werkzeug.utils import secure_filename
-from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Fact
+from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Fact, Uploads
 from uuid import uuid4
 from sqlalchemy import text
 import datetime
 import os
+
+lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
+lastUploadedResult = db.engine.execute(lastUploadedQuery)
+app.logger.error(lastUploadedResult)        
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -28,6 +32,13 @@ def fileUpload():
     file.save(destination)
     response="Uploaded"
     return response
+
+@app.route('/api/uploadedFileData', methods=['POST'])
+def uploadedFileData():
+    title = request.json.get('title')
+    link = request.json.get('link')
+    # print(title, link)
+    return "Success"
 
 @app.route('/api/register', methods=['POST'])
 def newUser():
