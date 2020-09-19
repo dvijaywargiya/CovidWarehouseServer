@@ -17,6 +17,8 @@ app.logger.error(lastUploadedResult)
 if len(lastUploadedResult) == 0:
     lastUploadedId = 0
 else:
+    if len(lastUploadedResult) > 1:
+        lastUploadedResult = lastUploadedResult[0]
     lastUploadedId = lastUploadedResult.fileId
 
 lastUploadedId = int(lastUploadedId)
