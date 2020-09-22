@@ -145,8 +145,13 @@ def query():
 
 
     if fromDate and toDate:
+        fromDate = fromDate.split('-')
+        formattedFromDate = datetime.date(int(fromDate[0]), int(fromDate[1]), int(fromDate[2]))
+        toDate = toDate.split('-')
+        formattedToDate = datetime.date(int(toDate[0]), int(toDate[1]), int(toDate[2]))
+
         try:
-            dateQuery = text('select distinct metaID from publication where timestamp between "{}" and "{}";'.format(fromDate, toDate))
+            dateQuery = text('select distinct metaID from publication where timestamp between "{}" and "{}";'.format(formattedFromDate, formattedToDate))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
             lists.append(dateFilenames)
