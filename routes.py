@@ -99,6 +99,14 @@ def getTopics():
 def intersection(lst1, lst2): 
     return [item for item in lst1 if item in lst2] 
 
+def union(lst1, lst2): 
+    lst = [item for item in lst1 if item in lst2 or item in lst1]
+    t = []
+    for ele in lst:
+        if ele not in t:
+            t.append(ele)
+    return  t
+
 @app.route('/api/query', methods=['POST'])
 def query():
     authors = list(request.json.get('authors'))
@@ -174,7 +182,10 @@ def query():
 
     files = masterFilenames
     for i in range(0, len(lists)):
-        files = intersection(files, lists[i][0])
+        if lists[i][1] == "OR":
+            files = union(files, lists[i][0])
+        else:
+            files = intersection(files, lists[i][0])
 
     list_to_be_returned = []
     for ele in files:
