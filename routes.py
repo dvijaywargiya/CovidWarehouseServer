@@ -8,21 +8,21 @@ from sqlalchemy import text
 import datetime
 import os
 
-lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
-lastUploadedResult = db.engine.execute(lastUploadedQuery)
+# lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
+# lastUploadedResult = db.engine.execute(lastUploadedQuery)
 
-temp = None
-for row in lastUploadedResult:
-    temp = row
-    break
+# temp = None
+# for row in lastUploadedResult:
+#     temp = row
+#     break
 
-app.logger.error(temp)        
-if temp == None:
-    lastUploadedId = 0
-else:
-    lastUploadedId = temp.fileId
+# app.logger.error(temp)        
+# if temp == None:
+#     lastUploadedId = 0
+# else:
+#     lastUploadedId = temp.fileId
 
-lastUploadedId = int(lastUploadedId)
+# lastUploadedId = int(lastUploadedId)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -105,10 +105,20 @@ def query():
     topics = list(request.json.get('topics'))
     fromDate = request.json.get('fromDate')
     toDate = request.json.get('toDate')
+
+    authorAcross = request.json.get('authorAcross')
+    dateAcross = request.json.get('dateAcross')
+    topicsAcross = request.json.get('topicsAcross')
+
     authors = tuple(authors)
     topics = tuple(topics)
 
     lists = []
+
+    masterQuery = text('select distinct metaID from file_dimension;')
+    masterResult = db.engine.execute(masterQuery)
+    masterFilenames = [row[0] for row in masterResult]
+
     if len(authors) > 0:
         authorsQuery = None
         if len(authors) > 1:
@@ -163,8 +173,8 @@ def query():
         dateFilenames = [row[0] for row in dateResult]
         lists.append(dateFilenames)
 
-    files = lists[0]
-    for i in range(1, len(lists)):
+    files = masterFilenames
+    for i in range(0, len(lists)):
         files = intersection(files, lists[i])
 
     list_to_be_returned = []
