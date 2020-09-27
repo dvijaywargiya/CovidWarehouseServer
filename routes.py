@@ -128,13 +128,13 @@ def query():
 
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]        
-        lists.append(authorsFilenames)
+        lists.append([authorsFilenames, authorAcross])
     else:
         authorsQuery = text('select distinct metaID from authors_dimension;')
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]
         
-        lists.append(authorsFilenames)
+        lists.append([authorsFilenames, authorAcross])
 
     if len(topics) > 0:
         topicsQuery = None
@@ -145,13 +145,12 @@ def query():
 
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
-        if len(topicsFilenames) > 0:
-            lists.append(topicsFilenames)
+        lists.append([topicsFilenames, topicsAcross])
     else:
         topicsQuery = text('select distinct metaID from topics_dimension;')
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
-        lists.append(topicsFilenames)
+        lists.append([topicsFilenames, topicsAcross])
 
 
     if fromDate and toDate:
@@ -164,18 +163,18 @@ def query():
             dateQuery = text('select distinct metaID from publication where timestamp between "{}" and "{}";'.format(formattedFromDate, formattedToDate))
             dateResult = db.engine.execute(dateQuery)
             dateFilenames = [row[0] for row in dateResult]
-            lists.append(dateFilenames)
+            lists.append([dateFilenames, dateAcross])
         except:
             pass
     else:
         dateQuery = text('select distinct metaID from publication;')
         dateResult = db.engine.execute(dateQuery)
         dateFilenames = [row[0] for row in dateResult]
-        lists.append(dateFilenames)
+        lists.append([dateFilenames, dateAcross])
 
     files = masterFilenames
     for i in range(0, len(lists)):
-        files = intersection(files, lists[i])
+        files = intersection(files, lists[i][0])
 
     list_to_be_returned = []
     for ele in files:
