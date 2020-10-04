@@ -2,7 +2,7 @@ from . import app, db
 import json
 from flask import request, abort, render_template
 from werkzeug.utils import secure_filename
-from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Fact, Uploads
+from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Uploads
 from uuid import uuid4
 from sqlalchemy import text
 import datetime
