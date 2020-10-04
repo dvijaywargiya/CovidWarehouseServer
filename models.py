@@ -34,7 +34,7 @@ class Topics(db.Model):
     topicName = db.Column(db.String(120), index=True)
 
 class Author(db.Model):
-    authorId = db.Column(db.String, primary_key=True)
+    authorId = db.Column(db.String, index=True)
     authorName = db.Column(db.String(120), index=True)
 
 class TopicsDimension(db.Model):
@@ -45,7 +45,7 @@ class TopicsDimension(db.Model):
 class AuthorsDimension(db.Model):
     id = db.Column(db.String, primary_key=True)
     metaID = db.Column(db.String(120), index=True)
-    authorId = db.Column(db.String, db.ForeignKey('author.authorId'))
+    authorId = db.Column(db.String)
 
 class FreqItems(db.Model):
     itemSetId = db.Column(db.String, primary_key=True)
