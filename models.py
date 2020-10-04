@@ -61,6 +61,7 @@ class FileDimension(db.Model):
     title = db.Column(db.String, index=True)
     link = db.Column(db.String, index=True)
     abstract = db.Column(db.String, index=True)
+    abstractLink = db.Column(db.String, index=True)
 
 class Uploads(db.Model):
     fileId = db.Column(db.Integer, primary_key=True)
