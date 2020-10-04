@@ -18,7 +18,7 @@ class User(db.Model):
 
 class Fact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    metaId = db.Column(db.Integer, index=True)
+    metaId = db.Column(db.String, index=True)
     arxivId = db.Column(db.String(64), index=True)
     title = db.Column(db.String(128), index=True)
     pdfLink = db.Column(db.String(128), index=True)
@@ -30,25 +30,25 @@ class Fact(db.Model):
     tag = db.Column(db.String(512), index=True)
 
 class Topics(db.Model):
-    topicId = db.Column(db.Integer, primary_key=True)
+    topicId = db.Column(db.String, primary_key=True)
     topicName = db.Column(db.String(120), index=True)
 
 class Author(db.Model):
-    authorId = db.Column(db.Integer, primary_key=True)
+    authorId = db.Column(db.String, primary_key=True)
     authorName = db.Column(db.String(120), index=True)
 
 class TopicsDimension(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String, primary_key=True)
     metaID = db.Column(db.String(120), index=True)
-    topicId = db.Column(db.Integer, db.ForeignKey('topics.topicId'))
+    topicId = db.Column(db.String, db.ForeignKey('topics.topicId'))
 
 class AuthorsDimension(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String, primary_key=True)
     metaID = db.Column(db.String(120), index=True)
-    authorId = db.Column(db.Integer, db.ForeignKey('author.authorId'))
+    authorId = db.Column(db.String, db.ForeignKey('author.authorId'))
 
 class FreqItems(db.Model):
-    itemSetId = db.Column(db.Integer, primary_key=True)
+    itemSetId = db.Column(db.String, primary_key=True)
     itemSet = db.Column(db.String(1024), index=True)
 
 class Publication(db.Model):
@@ -64,7 +64,7 @@ class FileDimension(db.Model):
     abstractLink = db.Column(db.String, index=True)
 
 class Uploads(db.Model):
-    fileId = db.Column(db.Integer, primary_key=True)
+    fileId = db.Column(db.String, primary_key=True)
     timeStamp = db.Column(db.DateTime, index=True)
     ip = db.Column(db.String, index=True)
     title = db.Column(db.String, index=True)
