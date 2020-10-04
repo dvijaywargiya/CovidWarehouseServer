@@ -16,19 +16,6 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-class Fact(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    metaId = db.Column(db.String, index=True)
-    arxivId = db.Column(db.String(64), index=True)
-    title = db.Column(db.String(128), index=True)
-    pdfLink = db.Column(db.String(128), index=True)
-    abstract = db.Column(db.String(512), index=True)
-    abstractLink = db.Column(db.String(128), index=True)
-    authors = db.Column(db.String(512), index=True)
-    publishedDate = db.Column(db.String(32), index=True)
-    link = db.Column(db.String(512), index=True)
-    tag = db.Column(db.String(512), index=True)
-
 class Topics(db.Model):
     topicId = db.Column(db.String, primary_key=True)
     topicName = db.Column(db.String(120), index=True)
