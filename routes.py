@@ -120,18 +120,20 @@ def union(lst1, lst2):
 def query():
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
+    locations = list(request.json.get('locations'))
     fromDate = request.json.get('fromDate')
     toDate = request.json.get('toDate')
 
     authorAcross = request.json.get('authorAcross')
     dateAcross = request.json.get('dateAcross')
     topicsAcross = request.json.get('topicsAcross')
+    locationsAcross = request.json.get('locationsAcross')
 
     authors = tuple(authors)
     topics = tuple(topics)
+    locations = tuple(locations)
 
     lists = []
-
     masterQuery = text('select distinct metaID from file_dimension;')
     masterResult = db.engine.execute(masterQuery)
     masterFilenames = [row[0] for row in masterResult]
@@ -169,6 +171,21 @@ def query():
         topicsFilenames = [row[0] for row in topicsResult]
         lists.append([topicsFilenames, topicsAcross])
 
+    if len(locations) > 0:
+        locationsQuery = None
+        if len(locations) > 1:
+            locationsQuery = text('select distinct metaID from location_dimension where locationId IN {} ;'.format(locations))
+        else:
+            locationsQuery = text('select distinct metaID from location_dimension where locationId = {} ;'.format(locations[0]))
+
+        locationsResult = db.engine.execute(locationsQuery)
+        locationsFilenames = [row[0] for row in locationsResult]
+        lists.append([locationsFilenames, locationsAcross])
+    else:
+        locationsQuery = text('select distinct metaID from location_dimension;')
+        locationsResult = db.engine.execute(locationsQuery)
+        locationsFilenames = [row[0] for row in locationsResult]
+        lists.append([locationsFilenames, locationsAcross])
 
     if fromDate and toDate:
         fromDate = fromDate.split('-')
