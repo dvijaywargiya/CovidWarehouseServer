@@ -2,7 +2,7 @@ from . import app, db
 import json
 from flask import request, abort, render_template
 from werkzeug.utils import secure_filename
-from .models import User, Author, Topics, AuthorsDimension, TopicsDimension, Uploads
+from .models import *
 from uuid import uuid4
 from sqlalchemy import text
 import datetime
@@ -95,6 +95,15 @@ def getTopics():
     for ele in topics:
         ret.append({'topicId': ele.topicId, 'topicName': ele.topicName})
     return json.dumps(ret)
+
+@app.route('/api/getLocations', methods=['GET'])
+def getLocations():
+    locations = Location.query.all() 
+    ret = []
+    for ele in locations:
+        ret.append({'locationId': ele.locationId, 'locationName': ele.locationName})
+    return json.dumps(ret)
+
 
 def intersection(lst1, lst2): 
     return [item for item in lst1 if item in lst2] 
