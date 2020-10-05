@@ -148,12 +148,6 @@ def query():
         authorsResult = db.engine.execute(authorsQuery)
         authorsFilenames = [row[0] for row in authorsResult]        
         lists.append([authorsFilenames, authorAcross])
-    else:
-        authorsQuery = text('select distinct metaID from authors_dimension;')
-        authorsResult = db.engine.execute(authorsQuery)
-        authorsFilenames = [row[0] for row in authorsResult]
-        
-        lists.append([authorsFilenames, authorAcross])
 
     if len(topics) > 0:
         topicsQuery = None
@@ -165,11 +159,6 @@ def query():
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
         lists.append([topicsFilenames, topicsAcross])
-    else:
-        topicsQuery = text('select distinct metaID from topics_dimension;')
-        topicsResult = db.engine.execute(topicsQuery)
-        topicsFilenames = [row[0] for row in topicsResult]
-        lists.append([topicsFilenames, topicsAcross])
 
     if len(locations) > 0:
         locationsQuery = None
@@ -178,11 +167,6 @@ def query():
         else:
             locationsQuery = text('select distinct metaID from location_dimension where locationId = {} ;'.format(locations[0]))
 
-        locationsResult = db.engine.execute(locationsQuery)
-        locationsFilenames = [row[0] for row in locationsResult]
-        lists.append([locationsFilenames, locationsAcross])
-    else:
-        locationsQuery = text('select distinct metaID from location_dimension;')
         locationsResult = db.engine.execute(locationsQuery)
         locationsFilenames = [row[0] for row in locationsResult]
         lists.append([locationsFilenames, locationsAcross])
@@ -200,11 +184,6 @@ def query():
             lists.append([dateFilenames, dateAcross])
         except:
             pass
-    else:
-        dateQuery = text('select distinct metaID from publication;')
-        dateResult = db.engine.execute(dateQuery)
-        dateFilenames = [row[0] for row in dateResult]
-        lists.append([dateFilenames, dateAcross])
 
     files = masterFilenames
     for i in range(0, len(lists)):
