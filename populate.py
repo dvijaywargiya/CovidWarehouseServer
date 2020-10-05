@@ -1,6 +1,25 @@
 import csv
 import datetime
 
+def populateLocation(db, Locations):
+    objs = []
+    with open('./csvs/location_id.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'locationId': ele[1], 'locationName': ele[0]})
+        db.engine.execute(Locations.__table__.insert(), objs)
+
+def populateLocationsDimension(db, LocationsDimension):
+    objs = []
+    with open('./csvs/location_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        val = 1
+        for ele in reader:
+            objs.append({'id': val, 'locationId': ele[1], 'metaID': ele[0]})
+            val = val + 1
+        db.engine.execute(LocationsDimension.__table__.insert(), objs)
+
+
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
     with open('./csvs/author_dim_table.csv', 'r') as fl:

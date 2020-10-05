@@ -56,3 +56,12 @@ class Uploads(db.Model):
     ip = db.Column(db.String, index=True)
     title = db.Column(db.String, index=True)
     link = db.Column(db.String, index=True)
+
+class Location(db.Model):
+    locationId = db.Column(db.String, primary_key=True)
+    locationName = db.Column(db.String(120), index=True)
+
+class LocationDimension(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    metaID = db.Column(db.String(120), index=True)
+    locationId = db.Column(db.String, db.ForeignKey('location.locationId'))

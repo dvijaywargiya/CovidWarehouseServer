@@ -22,9 +22,11 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
 
-from .populate import populateFileDimension,populateTopics, populateAuthor, populateFreqItems, populatePublication, populateAuthorDimension, populateTopicsDimension
+from .populate import *
 from .models import *
 
+# populateLocataion(db, Location)
+# populationLocationsDimension(db, LocationDimension)
 # populateTopics(db, Topics)
 # populateAuthor(db, Author)
 # populateFreqItems(db, FreqItems)
