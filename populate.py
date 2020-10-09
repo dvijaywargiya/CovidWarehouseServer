@@ -6,7 +6,7 @@ def populateType(db, Type):
     with open('./csvs/type_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'typeId': ele[0], 'typeName': ele[1]})
+            objs.append({'typeId': ele[1], 'typeName': ele[0]})
         db.engine.execute(Type.__table__.insert(), objs)
 
 
