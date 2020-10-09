@@ -85,7 +85,7 @@ def getTypes():
     types = Type.query.all() 
     ret = []
     for ele in types:
-        ret.append({'typeId': ele.typeId, 'typeName': ele.typeName, 'bool': 0})
+        ret.append({'typeId': ele.typeId, 'typeName': ele.typeName, 'bool': 1})
     return json.dumps(ret)
 
 @app.route('/api/getAuthors', methods=['GET'])
