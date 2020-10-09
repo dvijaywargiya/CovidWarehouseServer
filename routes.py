@@ -80,6 +80,14 @@ def authenticate():
         abort(400)
     return json.dumps({'user': user.name, 'token':user.token})
 
+@app.route('/api/getTypes', methods=['GET'])
+def getTypes():
+    types = Type.query.all() 
+    ret = []
+    for ele in types:
+        ret.append({'typeId': ele.typeId, 'typeName': ele.typeName})
+    return json.dumps(ret)
+
 @app.route('/api/getAuthors', methods=['GET'])
 def getAuthors():
     authors = Author.query.all() 
