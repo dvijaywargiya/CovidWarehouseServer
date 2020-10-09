@@ -131,7 +131,7 @@ def query():
     locations = list(request.json.get('locations'))
     selectedTypes = list(request.json.get('types'))
 
-    app.logger.error('check 1')
+    app.logger.error('check 1', types)
 
     fromDate = request.json.get('fromDate')
     toDate = request.json.get('toDate')
@@ -144,6 +144,9 @@ def query():
     authors = tuple(authors)
     topics = tuple(topics)
     locations = tuple(locations)
+    
+    app.logger.error(selectedTypes)
+
     selectedTypes = tuple(types)
 
     app.logger.error('check 2')
