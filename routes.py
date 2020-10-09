@@ -129,6 +129,8 @@ def query():
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
     locations = list(request.json.get('locations'))
+    selectedTypes = list(request.json.get('types'))
+
     fromDate = request.json.get('fromDate')
     toDate = request.json.get('toDate')
 
@@ -140,6 +142,15 @@ def query():
     authors = tuple(authors)
     topics = tuple(topics)
     locations = tuple(locations)
+    selectedTypes = tuple(types)
+
+    masterTypeQuery = ""
+    if len(selectedTypes) > 1:
+        masterTypeQuery = text('select distinct metaID from type_dimension where typeId IN {} ;'.format(selectedTypes))
+    else:
+        masterTypeQuery = text('select distinct metaID from type_dimension where typeId = {} ;'.format(selectedTypes[0]))
+    masterTypeResult = db.engine.execute(masterTypeQuery)
+    masterTypeFilenames = [row[0] for row in masterTypeResult]
 
     lists = []
     masterQuery = text('select distinct metaID from file_dimension;')
@@ -200,6 +211,8 @@ def query():
         else:
             files = intersection(files, lists[i][0])
 
+    files = intersection(files, masterTypeFilenames)
+    
     list_to_be_returned = []
     for ele in files:
         fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(ele))
