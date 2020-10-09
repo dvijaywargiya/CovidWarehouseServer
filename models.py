@@ -16,6 +16,15 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+class Type(db.Model):
+    typeId = db.Column(db.String, primary_key=True)
+    typeName = db.Column(db.String(120), index=True)
+
+class TypeDimension(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    metaID = db.Column(db.String(120), index=True)
+    typeId = db.Column(db.String, db.ForeignKey('type.typeId'))
+
 class Topics(db.Model):
     topicId = db.Column(db.String, primary_key=True)
     topicName = db.Column(db.String(120), index=True)

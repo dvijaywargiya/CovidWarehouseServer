@@ -1,6 +1,25 @@
 import csv
 import datetime
 
+def populateType(db, Type):
+    objs = []
+    with open('./csvs/type_id.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'typeId': ele[0], 'typeName': ele[1]})
+        db.engine.execute(Type.__table__.insert(), objs)
+
+
+def populateTypeDimension(db, TypeDimension):
+    objs = []
+    with open('./csvs/type_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        val = 1
+        for ele in reader:
+            objs.append({'id': val, 'typeId': ele[1], 'metaID': ele[0]})
+            val = val + 1
+        db.engine.execute(TypeDimension.__table__.insert(), objs)
+
 def populateLocation(db, Locations):
     objs = []
     with open('./csvs/location_id.csv', 'r') as fl:
