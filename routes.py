@@ -131,8 +131,6 @@ def query():
     locations = list(request.json.get('locations'))
     selectedTypes = list(request.json.get('types'))
 
-    app.logger.error('check 1', types)
-
     fromDate = request.json.get('fromDate')
     toDate = request.json.get('toDate')
 
@@ -145,11 +143,7 @@ def query():
     topics = tuple(topics)
     locations = tuple(locations)
     
-    app.logger.error(selectedTypes)
-
-    selectedTypes = tuple(types)
-
-    app.logger.error('check 2')
+    selectedTypes = tuple(selectedTypes)
 
     masterTypeQuery = ""
     if len(selectedTypes) > 1:
@@ -158,8 +152,6 @@ def query():
         masterTypeQuery = text('select distinct metaID from type_dimension where typeId = {} ;'.format(selectedTypes[0]))
     masterTypeResult = db.engine.execute(masterTypeQuery)
     masterTypeFilenames = [row[0] for row in masterTypeResult]
-
-    app.logger.error('check 3')
 
     lists = []
     masterQuery = text('select distinct metaID from file_dimension;')
