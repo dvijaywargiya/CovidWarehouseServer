@@ -50,9 +50,9 @@ class Publication(db.Model):
 class FileDimension(db.Model):
     metaID = db.Column(db.String(120), primary_key=True)
     fileName = db.Column(db.String(120), index=True)
-    title = db.Column(db.String(120), index=True)
+    title = db.Column(db.Text)
     link = db.Column(db.String(120), index=True)
-    abstract = db.Column(db.String(120), index=True)
+    abstract = db.Column(db.Text)
     abstractLink = db.Column(db.String(120), index=True)
 
 class Uploads(db.Model):
