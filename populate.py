@@ -67,19 +67,6 @@ def populateTopics(db, Topics):
             objs.append({'topicId': ele[0], 'topicName': ele[1]})
         db.engine.execute(Topics.__table__.insert(), objs)
 
-def populateFreqItems(db, FreqItems):
-    objs = []
-    with open('./csvs/freq_item_id.csv', 'r') as fl:
-        reader = csv.reader(fl)
-        for ele in reader:
-            id = ele[-1]
-            del ele[-1]
-            ele = ','.join(ele)
-            ele = ele.strip('[')
-            ele = ele.strip(']')
-            objs.append({'itemSetId': id, 'itemSet': ele})
-        db.engine.execute(FreqItems.__table__.insert(), objs)
-
 def populateAuthor(db, Author):
     objs = []
     with open('./csvs/author_id.csv', 'r') as fl:

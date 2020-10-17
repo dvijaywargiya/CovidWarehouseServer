@@ -9,8 +9,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     # ...
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'app.db')
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    #     'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://icdw:password@localhost/ICDW'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = '/var/www/CovidWarehouseServer/CovidWarehouseServer/uploads'
     # UPLOAD_FOLDER = './uploads'
