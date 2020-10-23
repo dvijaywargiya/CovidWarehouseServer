@@ -146,18 +146,7 @@ def query():
     
     selectedTypes = tuple(selectedTypes)
 
-    masterTypeQuery = ""
-    if len(selectedTypes) > 1:
-        masterTypeQuery = text('select distinct metaID from type_dimension where typeId IN {} ;'.format(selectedTypes))
-    else:
-        masterTypeQuery = text('select distinct metaID from type_dimension where typeId = {} ;'.format(selectedTypes[0]))
-    masterTypeResult = db.engine.execute(masterTypeQuery)
-    masterTypeFilenames = [row[0] for row in masterTypeResult]
-
-    lists = []
-    masterQuery = text('select distinct metaID from file_dimension;')
-    masterResult = db.engine.execute(masterQuery)
-    masterFilenames = [row[0] for row in masterResult]
+    masterFilenames = masterResult(db, selectedTypes)
 
     if len(authors) > 0:
         lists.append(authorResult(db, authors, authorAcross))
@@ -184,18 +173,13 @@ def query():
 
     files = intersection(files, masterTypeFilenames)
 
-    list_to_be_returned = []
-
     for i in range(len(files)):
         files[i] = str(files[i])
     files = tuple(files)
-    if len(files) > 1:
-        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
-    else:
-        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(files[0]))
-    fileResult = db.engine.execute(fileQuery)
-    fileResult = [row for row in fileResult]
 
+    fileResult = fileResults(db, files)
+
+    list_to_be_returned = []
     for ele in fileResult:
         list_to_be_returned.append({'title':ele[0],'link':ele[1],'abstract':ele[2], 'abstractLink':ele[3]})
 

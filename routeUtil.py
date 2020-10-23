@@ -1,6 +1,31 @@
 from sqlalchemy import text
 import datetime
 
+def masterResult(db, selectedTypes):
+    masterTypeQuery = ""
+    if len(selectedTypes) > 1:
+        masterTypeQuery = text('select distinct metaID from type_dimension where typeId IN {} ;'.format(selectedTypes))
+    else:
+        masterTypeQuery = text('select distinct metaID from type_dimension where typeId = {} ;'.format(selectedTypes[0]))
+    masterTypeResult = db.engine.execute(masterTypeQuery)
+    masterTypeFilenames = [row[0] for row in masterTypeResult]
+
+    lists = []
+    masterQuery = text('select distinct metaID from file_dimension;')
+    masterResult = db.engine.execute(masterQuery)
+    masterFilenames = [row[0] for row in masterResult]
+
+    return masterFilenames
+
+def fileResults(db, files):
+    if len(files) > 1:
+        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
+    else:
+        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(files[0]))
+    fileResult = db.engine.execute(fileQuery)
+    fileResult = [row for row in fileResult]
+    return fileResult
+
 def authorResult(db, authors, authorAcross):
     authorsQuery = None
     if len(authors) > 1:
