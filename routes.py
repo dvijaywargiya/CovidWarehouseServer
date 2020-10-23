@@ -228,6 +228,8 @@ def query():
 
     list_to_be_returned = []
 
+    for i in range(len(files)):
+        files[i] = str(files[i])
     fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
     fileResult = db.engine.execute(fileQuery)
     fileResult = [row for row in fileResult]
