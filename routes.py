@@ -153,6 +153,8 @@ def query():
     masterTypeResult = db.engine.execute(masterTypeQuery)
     masterTypeFilenames = [row[0] for row in masterTypeResult]
 
+    app.logger.error("Flag 1")
+
     lists = []
     masterQuery = text('select distinct metaID from file_dimension;')
     masterResult = db.engine.execute(masterQuery)
@@ -169,6 +171,8 @@ def query():
         authorsFilenames = [row[0] for row in authorsResult]        
         lists.append([authorsFilenames, authorAcross])
 
+    app.logger.error("Flag 2")
+
     if len(topics) > 0:
         topicsQuery = None
         if len(topics) > 1:
@@ -179,6 +183,8 @@ def query():
         topicsResult = db.engine.execute(topicsQuery)
         topicsFilenames = [row[0] for row in topicsResult]
         lists.append([topicsFilenames, topicsAcross])
+    
+    app.logger.error("Flag 3")
 
     if len(locations) > 0:
         locationsQuery = None
@@ -190,6 +196,8 @@ def query():
         locationsResult = db.engine.execute(locationsQuery)
         locationsFilenames = [row[0] for row in locationsResult]
         lists.append([locationsFilenames, locationsAcross])
+
+    app.logger.error("Flag 4")
 
     if fromDate and toDate:
         fromDate = fromDate.split('-')
@@ -205,6 +213,8 @@ def query():
         except:
             pass
 
+    app.logger.error("Flag 5")
+
     files = masterFilenames
     for i in range(0, len(lists)):
         if lists[i][1] == "OR":
@@ -213,6 +223,8 @@ def query():
             files = intersection(files, lists[i][0])
 
     files = intersection(files, masterTypeFilenames)
+
+    app.logger.error("Flag 6")
 
     list_to_be_returned = []
     for ele in files:
