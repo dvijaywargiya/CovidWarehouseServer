@@ -1,6 +1,6 @@
 from sqlalchemy import text
 
-def authorResult(db, authors):
+def authorResult(db, authors, authorAcross):
     authorsQuery = None
     if len(authors) > 1:
         authorsQuery = text('select distinct metaID from authors_dimension where authorId IN {} ;'.format(authors))
