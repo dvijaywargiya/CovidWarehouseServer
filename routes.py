@@ -212,7 +212,10 @@ def query():
     for i in range(len(files)):
         files[i] = str(files[i])
     files = tuple(files)
-    fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
+    if len(files) > 1:
+        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
+    else:
+        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(files[0]))
     fileResult = db.engine.execute(fileQuery)
     fileResult = [row for row in fileResult]
 
