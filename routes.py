@@ -7,6 +7,7 @@ from uuid import uuid4
 from sqlalchemy import text
 import datetime
 import os
+from .routeUtil import *
 
 # lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
 # lastUploadedResult = db.engine.execute(lastUploadedQuery)
@@ -153,25 +154,13 @@ def query():
     masterTypeResult = db.engine.execute(masterTypeQuery)
     masterTypeFilenames = [row[0] for row in masterTypeResult]
 
-    app.logger.error("Flag 1")
-
     lists = []
     masterQuery = text('select distinct metaID from file_dimension;')
     masterResult = db.engine.execute(masterQuery)
     masterFilenames = [row[0] for row in masterResult]
 
     if len(authors) > 0:
-        authorsQuery = None
-        if len(authors) > 1:
-            authorsQuery = text('select distinct metaID from authors_dimension where authorId IN {} ;'.format(authors))
-        else:
-            authorsQuery = text('select distinct metaID from authors_dimension where authorId = {} ;'.format(authors[0]))
-
-        authorsResult = db.engine.execute(authorsQuery)
-        authorsFilenames = [row[0] for row in authorsResult]        
-        lists.append([authorsFilenames, authorAcross])
-
-    app.logger.error("Flag 2")
+        lists.append(authorResult(db, authors))
 
     if len(topics) > 0:
         topicsQuery = None
@@ -184,8 +173,6 @@ def query():
         topicsFilenames = [row[0] for row in topicsResult]
         lists.append([topicsFilenames, topicsAcross])
     
-    app.logger.error("Flag 3")
-
     if len(locations) > 0:
         locationsQuery = None
         if len(locations) > 1:
@@ -196,8 +183,6 @@ def query():
         locationsResult = db.engine.execute(locationsQuery)
         locationsFilenames = [row[0] for row in locationsResult]
         lists.append([locationsFilenames, locationsAcross])
-
-    app.logger.error("Flag 4")
 
     if fromDate and toDate:
         fromDate = fromDate.split('-')
@@ -213,8 +198,6 @@ def query():
         except:
             pass
 
-    app.logger.error("Flag 5")
-
     files = masterFilenames
     for i in range(0, len(lists)):
         if lists[i][1] == "OR":
@@ -223,8 +206,6 @@ def query():
             files = intersection(files, lists[i][0])
 
     files = intersection(files, masterTypeFilenames)
-
-    app.logger.error("Flag 6")
 
     list_to_be_returned = []
 
@@ -237,14 +218,5 @@ def query():
 
     for ele in fileResult:
         list_to_be_returned.append({'title':ele[0],'link':ele[1],'abstract':ele[2], 'abstractLink':ele[3]})
-
-
-    # for ele in files:
-    #     fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(ele))
-    #     fileResult = db.engine.execute(fileQuery)
-    #     fileResult = [row for row in fileResult][0]
-    #     list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2], 'abstractLink':fileResult[3]})
-
-    app.logger.error("Flag 7")
 
     return json.dumps(list_to_be_returned)
