@@ -160,7 +160,7 @@ def query():
     masterFilenames = [row[0] for row in masterResult]
 
     if len(authors) > 0:
-        lists.append(authorResult(db, authors))
+        lists.append(authorResult(db, authors, authorAcross))
 
     if len(topics) > 0:
         topicsQuery = None
