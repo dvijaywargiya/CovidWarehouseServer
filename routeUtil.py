@@ -10,12 +10,11 @@ def masterResult(db, selectedTypes):
     masterTypeResult = db.engine.execute(masterTypeQuery)
     masterTypeFilenames = [row[0] for row in masterTypeResult]
 
-    lists = []
     masterQuery = text('select distinct metaID from file_dimension;')
     masterResult = db.engine.execute(masterQuery)
     masterFilenames = [row[0] for row in masterResult]
 
-    return masterFilenames
+    return [masterFilenames, masterTypeFilenames]
 
 def fileResults(db, files):
     if len(files) > 1:

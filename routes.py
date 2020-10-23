@@ -146,7 +146,8 @@ def query():
     
     selectedTypes = tuple(selectedTypes)
 
-    masterFilenames = masterResult(db, selectedTypes)
+    lists = []
+    [masterFilenames, masterTypeFilenames] = masterResult(db, selectedTypes)
 
     if len(authors) > 0:
         lists.append(authorResult(db, authors, authorAcross))
