@@ -1,4 +1,5 @@
 from sqlalchemy import text
+import datetime
 
 def authorResult(db, authors, authorAcross):
     authorsQuery = None
