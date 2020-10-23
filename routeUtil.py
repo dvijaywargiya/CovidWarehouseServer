@@ -1,3 +1,5 @@
+from sqlalchemy import text
+
 def authorResult(db, authors):
     authorsQuery = None
     if len(authors) > 1:
