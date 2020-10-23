@@ -9,21 +9,20 @@ import datetime
 import os
 from .routeUtil import *
 
-# lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
-# lastUploadedResult = db.engine.execute(lastUploadedQuery)
+lastUploadedQuery = text('select * from uploads order by fileId desc limit 1')
+lastUploadedResult = db.engine.execute(lastUploadedQuery)
 
-# temp = None
-# for row in lastUploadedResult:
-#     temp = row
-#     break
+temp = None
+for row in lastUploadedResult:
+    temp = row
+    break
 
-# app.logger.error(temp)        
-# if temp == None:
-#     lastUploadedId = 0
-# else:
-#     lastUploadedId = temp.fileId
+if temp == None:
+    lastUploadedId = 0
+else:
+    lastUploadedId = temp.fileId
 
-# lastUploadedId = int(lastUploadedId)
+lastUploadedId = int(lastUploadedId)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
