@@ -227,11 +227,20 @@ def query():
     app.logger.error("Flag 6")
 
     list_to_be_returned = []
-    for ele in files:
-        fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(ele))
-        fileResult = db.engine.execute(fileQuery)
-        fileResult = [row for row in fileResult][0]
-        list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2], 'abstractLink':fileResult[3]})
+
+    fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID in {} ;'.format(files))
+    fileResult = db.engine.execute(fileQuery)
+    fileResult = [row for row in fileResult]
+
+    for ele in fileResult:
+        list_to_be_returned.append({'title':ele[0],'link':ele[1],'abstract':ele[2], 'abstractLink':ele[3]})
+
+
+    # for ele in files:
+    #     fileQuery = text('select title, link, abstract, abstractLink from file_dimension where metaID = {} ;'.format(ele))
+    #     fileResult = db.engine.execute(fileQuery)
+    #     fileResult = [row for row in fileResult][0]
+    #     list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2], 'abstractLink':fileResult[3]})
 
     app.logger.error("Flag 7")
 
