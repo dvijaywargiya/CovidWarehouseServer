@@ -233,4 +233,6 @@ def query():
         fileResult = [row for row in fileResult][0]
         list_to_be_returned.append({'title':fileResult[0],'link':fileResult[1],'abstract':fileResult[2], 'abstractLink':fileResult[3]})
 
+    app.logger.error("Flag 7")
+
     return json.dumps(list_to_be_returned)
