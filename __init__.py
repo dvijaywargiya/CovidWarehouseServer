@@ -32,7 +32,6 @@ from .models import *
 # populateLocationsDimension(db, LocationDimension)
 # populateTopics(db, Topics)
 # populateAuthor(db, Author)
-# populateFreqItems(db, FreqItems)
 # populatePublication(db, Publication)
 # populateAuthorDimension(db, AuthorsDimension)
 # populateTopicsDimension(db, TopicsDimension)
