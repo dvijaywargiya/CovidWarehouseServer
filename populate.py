@@ -91,7 +91,7 @@ def populateAuthorDimension(db, AuthorDimension):
             defId = ele[0]
             authorId = ele[2]
             metaID = ele[1]
-            checkQuery = text('select * from author_dimension where metaID = {} ;'.format(metaID))
+            checkQuery = text('select * from authors_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
@@ -101,11 +101,16 @@ def populateTopicsDimension(db, TopicsDimension):
     objs = []
     with open('./csvs/topics_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
-        val = 1
         for ele in reader:
             objs.append({'id': val, 'topicId': ele[1], 'metaID': ele[0]})
-            val = val + 1
-        db.engine.execute(TopicsDimension.__table__.insert(), objs)
+            defId = ele[0]
+            topicId = ele[2]
+            metaID = ele[1]
+            checkQuery = text('select * from topics_dimension where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(TopicsDimension.__table__.insert(), id = defId, topicId=authorId, metaID=metaID)
 
 def populateTopics(db, Topics):
     objs = []
