@@ -23,6 +23,20 @@ def populateCategory(db, Category):
             if len(content) == 0:
                 db.engine.execute(Category.__table__.insert(), categoryId=categoryId, categoryName=categoryName)
 
+def populateCategoryDimension(db, CategoryDimension):
+    objs = []
+    with open('./csvs/category_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            defId = ele[0]
+            metaId = ele[1]
+            categoryId = ele[2]
+            checkQuery = text('select * from category_dimension where metaId = {} ;'.format(metaId))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(CategoryDimension.__table__.insert(), id = defId, metaID=metaId, categoryId=categoryId)
+
 def populateTypeDimension(db, TypeDimension):
     objs = []
     with open('./csvs/type_dim_table.csv', 'r') as fl:
