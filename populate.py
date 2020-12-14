@@ -102,7 +102,6 @@ def populateTopicsDimension(db, TopicsDimension):
     with open('./csvs/topics_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'id': val, 'topicId': ele[1], 'metaID': ele[0]})
             defId = ele[0]
             topicId = ele[2]
             metaID = ele[1]
@@ -117,8 +116,13 @@ def populateTopics(db, Topics):
     with open('./csvs/topic_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'topicId': ele[0], 'topicName': ele[1]})
-        db.engine.execute(Topics.__table__.insert(), objs)
+            topicId = ele[0]
+            topicName = ele[1]
+            checkQuery = text('select * from topic where topicId = {} ;'.format(topicId))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Topics.__table__.insert(), topicId=topicId, topicName=topicName)
 
 def populateAuthor(db, Author):
     objs = []
@@ -126,7 +130,13 @@ def populateAuthor(db, Author):
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'authorId': ele[1], 'authorName': ele[0]})
-        db.engine.execute(Author.__table__.insert(), objs)
+            authorId = ele[1]
+            authorName = ele[0]
+            checkQuery = text('select * from author where authorId = {} ;'.format(authorId))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Author.__table__.insert(), authorId=authorId, authorName=authorName)
 
 def populatePublication(db, Publication):
     objs = []
@@ -135,8 +145,13 @@ def populatePublication(db, Publication):
         for ele in reader:
             temp = ele[1].split(' ')[0].split('-')
             timestamp = datetime.date(int(temp[0]), int(temp[1]), int(temp[2]))
-            objs.append({'metaID': ele[0], 'timestamp': timestamp})
-        db.engine.execute(Publication.__table__.insert(), objs)
+            timestamp = timestamp
+            metaID = ele[0]
+            checkQuery = text('select * from publication where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Publication.__table__.insert(), timestamp=timestamp, metaID=metaID)
 
 def populateFileDimension(db, FileDimension):
     objs = []
