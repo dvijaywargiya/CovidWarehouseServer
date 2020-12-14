@@ -74,7 +74,6 @@ def populateLocationsDimension(db, LocationsDimension):
     with open('./csvs/location_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'id': val, 'locationId': ele[1], 'metaID': ele[0]})
             defId = ele[0]
             locationId = ele[2]
             metaID = ele[1]
@@ -88,11 +87,15 @@ def populateAuthorDimension(db, AuthorDimension):
     objs = []
     with open('./csvs/author_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
-        val = 1
         for ele in reader:
-            objs.append({'id': val, 'authorId': ele[1], 'metaID': ele[0]})
-            val = val + 1
-        db.engine.execute(AuthorDimension.__table__.insert(), objs)
+            defId = ele[0]
+            authorId = ele[2]
+            metaID = ele[1]
+            checkQuery = text('select * from author_dimension where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(AuthorDimension.__table__.insert(), id = defId, authorId=authorId, metaID=metaID)
 
 def populateTopicsDimension(db, TopicsDimension):
     objs = []
