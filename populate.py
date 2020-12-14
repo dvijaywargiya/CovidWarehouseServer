@@ -9,6 +9,18 @@ def populateType(db, Type):
             objs.append({'typeId': ele[1], 'typeName': ele[0]})
         db.engine.execute(Type.__table__.insert(), objs)
 
+def populateCategory(db, Category):
+    objs = []
+    with open('./csvs/category_id.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            categoryId = ele[0]
+            categoryName = ele[1]
+            checkQuery = text('select * from category where categoryId = {} ;'.format(category_id))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Type.__table__.insert(), categoryId=categoryId, categoryName=categoryName)
 
 def populateTypeDimension(db, TypeDimension):
     objs = []
