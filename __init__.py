@@ -26,8 +26,8 @@ CORS(app)
 from .populate import *
 from .models import *
 
-# populateCategoryDimension(db, CategoryDimension)
 # populateCategory(db, Category)
+# populateCategoryDimension(db, CategoryDimension)
 # populateType(db, Type)
 # populateTypeDimension(db, TypeDimension)
 # populateLocation(db, Location)

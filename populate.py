@@ -81,7 +81,7 @@ def populateLocationsDimension(db, LocationsDimension):
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(LocationDimension.__table__.insert(), id = defId, locationId=locationId, metaID=metaID)
+                db.engine.execute(LocationsDimension.__table__.insert(), id = defId, locationId=locationId, metaID=metaID)
 
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
@@ -109,7 +109,7 @@ def populateTopicsDimension(db, TopicsDimension):
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(TopicsDimension.__table__.insert(), id = defId, topicId=authorId, metaID=metaID)
+                db.engine.execute(TopicsDimension.__table__.insert(), id = defId, topicId=topicId, metaID=metaID)
 
 def populateTopics(db, Topics):
     objs = []
@@ -118,7 +118,7 @@ def populateTopics(db, Topics):
         for ele in reader:
             topicId = ele[0]
             topicName = ele[1]
-            checkQuery = text('select * from topic where topicId = {} ;'.format(topicId))
+            checkQuery = text('select * from topics where topicId = {} ;'.format(topicId))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
@@ -127,6 +127,10 @@ def populateTopics(db, Topics):
 def populateAuthor(db, Author):
     objs = []
     with open('./csvs/author_id.csv', 'r') as fl:
+        #reader = csv.reader(fl)
+        #for ele in reader:
+        #    objs.append({'authorId': ele[1], 'authorName': ele[0]})
+        #db.engine.execute(Author.__table__.insert(), objs)
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'authorId': ele[1], 'authorName': ele[0]})
