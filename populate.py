@@ -7,8 +7,27 @@ def populateType(db, Type):
     with open('./csvs/type_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'typeId': ele[1], 'typeName': ele[0]})
-        db.engine.execute(Type.__table__.insert(), objs)
+            typeId = ele[1]
+            typeName = ele[0]
+            checkQuery = text('select * from type where typeId = {} ;'.format(typeId))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Type.__table__.insert(), typeId=typeId, typeName=typeName)
+
+def populateTypeDimension(db, TypeDimension):
+    objs = []
+    with open('./csvs/type_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            defId = ele[0]
+            metaID = ele[1]
+            typeId = ele[2]
+            checkQuery = text('select * from type_dimension where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(TypeDimension.__table__.insert(), id=defId, metaID=metaID, tpyeId=typeId)
 
 def populateCategory(db, Category):
     objs = []
@@ -29,42 +48,41 @@ def populateCategoryDimension(db, CategoryDimension):
         reader = csv.reader(fl)
         for ele in reader:
             defId = ele[0]
-            metaId = ele[1]
+            metaID = ele[1]
             categoryId = ele[2]
-            checkQuery = text('select * from category_dimension where metaId = {} ;'.format(metaId))
+            checkQuery = text('select * from category_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
                 db.engine.execute(CategoryDimension.__table__.insert(), id = defId, metaID=metaId, categoryId=categoryId)
-
-def populateTypeDimension(db, TypeDimension):
-    objs = []
-    with open('./csvs/type_dim_table.csv', 'r') as fl:
-        reader = csv.reader(fl)
-        val = 1
-        for ele in reader:
-            objs.append({'id': val, 'typeId': ele[1], 'metaID': ele[0]})
-            val = val + 1
-        db.engine.execute(TypeDimension.__table__.insert(), objs)
 
 def populateLocation(db, Locations):
     objs = []
     with open('./csvs/location_id.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'locationId': ele[1], 'locationName': ele[0]})
-        db.engine.execute(Locations.__table__.insert(), objs)
-
+            locationId = ele[1]
+            locationName = ele[0]
+            checkQuery = text('select * from location where locationId = {} ;'.format(locationId))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(Locations.__table__.insert(), locationId=locationId, locationName=locationName)
+   
 def populateLocationsDimension(db, LocationsDimension):
     objs = []
     with open('./csvs/location_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
-        val = 1
         for ele in reader:
             objs.append({'id': val, 'locationId': ele[1], 'metaID': ele[0]})
-            val = val + 1
-        db.engine.execute(LocationsDimension.__table__.insert(), objs)
-
+            defId = ele[0]
+            locationId = ele[2]
+            metaID = ele[1]
+            checkQuery = text('select * from location_dimension where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(LocationDimension.__table__.insert(), id = defId, locationId=locationId, metaID=metaID)
 
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
