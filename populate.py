@@ -158,5 +158,14 @@ def populateFileDimension(db, FileDimension):
     with open('./csvs/fact_display.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            objs.append({'metaID': ele[0], 'fileName': ele[1], 'title':ele[2], 'link':ele[3], 'abstract':ele[4], 'abstractLink': ele[5]})
-        db.engine.execute(FileDimension.__table__.insert(), objs)
+            metaID = ele[0]
+            fileName = ele[1]
+            title = ele[2]
+            link = ele[3]
+            abstract = ele[4]
+            abstractLink = ele[5]            
+            checkQuery = text('select * from file_dimension where metaID = {} ;'.format(metaID))
+            checkResult = db.engine.execute(checkQuery)
+            content = [row[0] for row in checkResult]
+            if len(content) == 0:
+                db.engine.execute(FileDimension.__table__.insert(), metaID=metaID, fileName=fileName, title=title, link=link, abstract=abstract, abstractLink=abstractLink)
