@@ -1,5 +1,6 @@
 import csv
 import datetime
+from sqlalchemy import text
 
 def populateType(db, Type):
     objs = []
@@ -16,11 +17,11 @@ def populateCategory(db, Category):
         for ele in reader:
             categoryId = ele[0]
             categoryName = ele[1]
-            checkQuery = text('select * from category where categoryId = {} ;'.format(category_id))
+            checkQuery = text('select * from category where categoryId = {} ;'.format(categoryId))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(Type.__table__.insert(), categoryId=categoryId, categoryName=categoryName)
+                db.engine.execute(Category.__table__.insert(), categoryId=categoryId, categoryName=categoryName)
 
 def populateTypeDimension(db, TypeDimension):
     objs = []
