@@ -54,7 +54,7 @@ def populateCategoryDimension(db, CategoryDimension):
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(CategoryDimension.__table__.insert(), id = defId, metaID=metaId, categoryId=categoryId)
+                db.engine.execute(CategoryDimension.__table__.insert(), id = defId, metaID=metaID, categoryId=categoryId)
 
 def populateLocation(db, Locations):
     objs = []
