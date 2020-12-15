@@ -21,8 +21,7 @@ class Category(db.Model):
     categoryName = db.Column(db.String(120), index=True)
 
 class CategoryDimension(db.Model):
-    id = db.Column(db.String(120), primary_key=True)
-    metaID = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), primary_key=True)
     categoryId = db.Column(db.String(120), db.ForeignKey('category.categoryId'))
 
 class Type(db.Model):
@@ -30,8 +29,7 @@ class Type(db.Model):
     typeName = db.Column(db.String(120), index=True)
 
 class TypeDimension(db.Model):
-    id = db.Column(db.String(120), primary_key=True)
-    metaID = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), primary_key=True)
     typeId = db.Column(db.String(120), db.ForeignKey('type.typeId'))
 
 class Topics(db.Model):
@@ -43,13 +41,11 @@ class Author(db.Model):
     authorName = db.Column(db.String(120), index=True)
 
 class TopicsDimension(db.Model):
-    id = db.Column(db.String(120), primary_key=True)
-    metaID = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), primary_key=True)
     topicId = db.Column(db.String(120), db.ForeignKey('topics.topicId'))
 
 class AuthorsDimension(db.Model):
-    id = db.Column(db.String(120), primary_key=True)
-    metaID = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), primary_key=True)
     authorId = db.Column(db.String(120), db.ForeignKey('author.authorId'))
 
 class Publication(db.Model):
@@ -76,6 +72,5 @@ class Location(db.Model):
     locationName = db.Column(db.String(120), index=True)
 
 class LocationDimension(db.Model):
-    id = db.Column(db.String(120), primary_key=True)
-    metaID = db.Column(db.String(120), index=True)
+    metaID = db.Column(db.String(120), primary_key=True)
     locationId = db.Column(db.String(120), db.ForeignKey('location.locationId'))

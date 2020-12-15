@@ -24,8 +24,10 @@ migrate = Migrate(app, db)
 CORS(app)
 
 from .populate_incremental import *
+from .populate_bulk import *
 from .models import *
 
 populateIncremental(db, Category, CategoryDimension, Type, TypeDimension, Location, LocationDimension, Topics, Author, Publication, AuthorsDimension, TopicsDimension, FileDimension)
+# populateBulk(db, Category, CategoryDimension, Type, TypeDimension, Location, LocationDimension, Topics, Author, Publication, AuthorsDimension, TopicsDimension, FileDimension)
 
 from . import routes
