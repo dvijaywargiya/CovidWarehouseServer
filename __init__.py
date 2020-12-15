@@ -23,20 +23,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 CORS(app)
 
-from .populate import *
+from .populate_incremental import *
 from .models import *
 
-# populateCategory(db, Category)
-# populateCategoryDimension(db, CategoryDimension)
-# populateType(db, Type)
-# populateTypeDimension(db, TypeDimension)
-# populateLocation(db, Location)
-# populateLocationsDimension(db, LocationDimension)
-# populateTopics(db, Topics)
-# populateAuthor(db, Author)
-# populatePublication(db, Publication)
-# populateAuthorDimension(db, AuthorsDimension)
-# populateTopicsDimension(db, TopicsDimension)
-# populateFileDimension(db, FileDimension)
+populateIncremental(db, Category, CategoryDimension, Type, TypeDimension, Location, LocationDimension, Topics, Author, Publication, AuthorsDimension, TopicsDimension, FileDimension)
 
 from . import routes

@@ -2,6 +2,20 @@ import csv
 import datetime
 from sqlalchemy import text
 
+def populateIncremental(db, Category, CategoryDimension, Type, TypeDimension, Location, LocationDimension, Topics, Author, Publication, AuthorsDimension, TopicsDimension, FileDimension):
+    populateCategory(db, Category)
+    populateCategoryDimension(db, CategoryDimension)
+    populateType(db, Type)
+    populateTypeDimension(db, TypeDimension)
+    populateLocation(db, Location)
+    populateLocationsDimension(db, LocationDimension)
+    populateTopics(db, Topics)
+    populateAuthor(db, Author)
+    populatePublication(db, Publication)
+    populateAuthorDimension(db, AuthorsDimension)
+    populateTopicsDimension(db, TopicsDimension)
+    populateFileDimension(db, FileDimension)
+
 def populateType(db, Type):
     objs = []
     with open('./csvs/type_id.csv', 'r') as fl:
@@ -127,10 +141,6 @@ def populateTopics(db, Topics):
 def populateAuthor(db, Author):
     objs = []
     with open('./csvs/author_id.csv', 'r') as fl:
-        #reader = csv.reader(fl)
-        #for ele in reader:
-        #    objs.append({'authorId': ele[1], 'authorName': ele[0]})
-        #db.engine.execute(Author.__table__.insert(), objs)
         reader = csv.reader(fl)
         for ele in reader:
             objs.append({'authorId': ele[1], 'authorName': ele[0]})
