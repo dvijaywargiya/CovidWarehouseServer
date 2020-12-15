@@ -27,6 +27,22 @@ def populateBulk(db, Category, CategoryDimension, Type, TypeDimension, Location,
     populateFileDimension(db, FileDimension)
     print("FileDimension bulk added")
 
+def populateCategory(db, Category):
+    objs = []
+    with open('./csvs/category_id.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'categoryId': ele[0], 'categoryName': ele[1]})
+        db.engine.execute(Category.__table__.insert(), objs)
+
+def populateCategoryDimension(db, CategoryDimension):
+    objs = []
+    with open('./csvs/category_dim_table.csv', 'r') as fl:
+        reader = csv.reader(fl)
+        for ele in reader:
+            objs.append({'metaID': ele[0], 'categoryId': ele[1]})
+        db.engine.execute(CategoryDimension.__table__.insert(), objs)
+
 def populateType(db, Type):
     objs = []
     with open('./csvs/type_id.csv', 'r') as fl:

@@ -46,14 +46,13 @@ def populateTypeDimension(db, TypeDimension):
     with open('./csvs/type_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            defId = ele[0]
-            metaID = ele[1]
-            typeId = ele[2]
+            metaID = ele[0]
+            typeId = ele[1]
             checkQuery = text('select * from type_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(TypeDimension.__table__.insert(), id=defId, metaID=metaID, tpyeId=typeId)
+                db.engine.execute(TypeDimension.__table__.insert(), metaID=metaID, tpyeId=typeId)
 
 def populateCategory(db, Category):
     objs = []
@@ -73,14 +72,13 @@ def populateCategoryDimension(db, CategoryDimension):
     with open('./csvs/category_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            defId = ele[0]
-            metaID = ele[1]
-            categoryId = ele[2]
+            metaID = ele[0]
+            categoryId = ele[1]
             checkQuery = text('select * from category_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(CategoryDimension.__table__.insert(), id = defId, metaID=metaID, categoryId=categoryId)
+                db.engine.execute(CategoryDimension.__table__.insert(), metaID=metaID, categoryId=categoryId)
 
 def populateLocation(db, Locations):
     objs = []
@@ -100,42 +98,39 @@ def populateLocationsDimension(db, LocationsDimension):
     with open('./csvs/location_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            defId = ele[0]
-            locationId = ele[2]
-            metaID = ele[1]
+            locationId = ele[1]
+            metaID = ele[0]
             checkQuery = text('select * from location_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(LocationsDimension.__table__.insert(), id = defId, locationId=locationId, metaID=metaID)
+                db.engine.execute(LocationsDimension.__table__.insert(), locationId=locationId, metaID=metaID)
 
 def populateAuthorDimension(db, AuthorDimension):
     objs = []
     with open('./csvs/author_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            defId = ele[0]
-            authorId = ele[2]
-            metaID = ele[1]
+            authorId = ele[1]
+            metaID = ele[0]
             checkQuery = text('select * from authors_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(AuthorDimension.__table__.insert(), id = defId, authorId=authorId, metaID=metaID)
+                db.engine.execute(AuthorDimension.__table__.insert(), authorId=authorId, metaID=metaID)
 
 def populateTopicsDimension(db, TopicsDimension):
     objs = []
     with open('./csvs/topics_dim_table.csv', 'r') as fl:
         reader = csv.reader(fl)
         for ele in reader:
-            defId = ele[0]
-            topicId = ele[2]
-            metaID = ele[1]
+            topicId = ele[1]
+            metaID = ele[0]
             checkQuery = text('select * from topics_dimension where metaID = {} ;'.format(metaID))
             checkResult = db.engine.execute(checkQuery)
             content = [row[0] for row in checkResult]
             if len(content) == 0:
-                db.engine.execute(TopicsDimension.__table__.insert(), id = defId, topicId=topicId, metaID=metaID)
+                db.engine.execute(TopicsDimension.__table__.insert(), topicId=topicId, metaID=metaID)
 
 def populateTopics(db, Topics):
     objs = []
