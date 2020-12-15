@@ -4,17 +4,29 @@ from sqlalchemy import text
 
 def populateIncremental(db, Category, CategoryDimension, Type, TypeDimension, Location, LocationDimension, Topics, Author, Publication, AuthorsDimension, TopicsDimension, FileDimension):
     populateCategory(db, Category)
+    print("Category incrementally added")
     populateCategoryDimension(db, CategoryDimension)
+    print("CategoryDimension incrementally added")
     populateType(db, Type)
+    print("Type incrementally added")
     populateTypeDimension(db, TypeDimension)
+    print("TypeDimension incrementally added")
     populateLocation(db, Location)
+    print("Location incrementally added")
     populateLocationsDimension(db, LocationDimension)
+    print("LocationDimension incrementally added")
     populateTopics(db, Topics)
+    print("Topics incrementally added")
     populateAuthor(db, Author)
+    print("Author incrementally added")
     populatePublication(db, Publication)
+    print("Publication incrementally added")
     populateAuthorDimension(db, AuthorsDimension)
+    print("AuthorsDimension incrementally added")
     populateTopicsDimension(db, TopicsDimension)
+    print("TopicsDimension incrementally added")
     populateFileDimension(db, FileDimension)
+    print("FileDimension incrementally added")
 
 def populateType(db, Type):
     objs = []
