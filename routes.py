@@ -83,6 +83,14 @@ def authenticate():
         abort(400)
     return json.dumps({'user': user.name, 'token':user.token})
 
+@app.route('/api/getCategories', methods=['GET'])
+def getCategories():
+    types = Category.query.all() 
+    ret = []
+    for ele in types:
+        ret.append({'categoryId': ele.categoryId, 'categoryName': ele.categoryName})
+    return json.dumps(ret)
+
 @app.route('/api/getTypes', methods=['GET'])
 def getTypes():
     types = Type.query.all() 
