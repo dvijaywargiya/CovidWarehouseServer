@@ -27,7 +27,7 @@ def fileResults(db, files):
 
 def categoryResult(db, categories, categoriesAcross):
     categoryQuery = None
-    if len(authors) > 1:
+    if len(categories) > 1:
         categoryQuery = text('select distinct metaID from category where categoryId IN {} ;'.format(categories))
     else:
         categoryQuery = text('select distinct metaID from category where categoryId = {} ;'.format(categories[0]))
