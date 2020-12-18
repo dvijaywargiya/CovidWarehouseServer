@@ -140,6 +140,7 @@ def query():
     authors = list(request.json.get('authors'))
     topics = list(request.json.get('topics'))
     locations = list(request.json.get('locations'))
+    categories = list(request.json.get('categories'))
     selectedTypes = list(request.json.get('types'))
 
     fromDate = request.json.get('fromDate')
@@ -149,11 +150,13 @@ def query():
     dateAcross = request.json.get('dateAcross')
     topicsAcross = request.json.get('topicsAcross')
     locationsAcross = request.json.get('locationsAcross')
+    categoriesAcross = request.json.get('categoriesAcross')
 
     authors = tuple(authors)
     topics = tuple(topics)
     locations = tuple(locations)
-    
+    categories = tuple(categories)
+
     selectedTypes = tuple(selectedTypes)
 
     lists = []
@@ -167,6 +170,9 @@ def query():
     
     if len(locations) > 0:
         lists.append(locationResult(db, locations, locationsAcross))
+
+    if len(categories) > 0:
+        lists.append(categoryResult(db, categories, categoriesAcross))
 
     if fromDate and toDate:
         dateCorres = dateResult(db, fromDate, toDate, dateAcross)

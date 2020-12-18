@@ -25,6 +25,17 @@ def fileResults(db, files):
     fileResult = [row for row in fileResult]
     return fileResult
 
+def categoryResult(db, categories, categoriesAcross):
+    categoryQuery = None
+    if len(authors) > 1:
+        categoryQuery = text('select distinct metaID from category where categoryId IN {} ;'.format(categories))
+    else:
+        categoryQuery = text('select distinct metaID from category where categoryId = {} ;'.format(categories[0]))
+
+    categoriesResult = db.engine.execute(categoryQuery)
+    categoriesFilenames = [row[0] for row in categoriesResult]        
+    return [categoriesFilenames, categoriesAcross]
+
 def authorResult(db, authors, authorAcross):
     authorsQuery = None
     if len(authors) > 1:
